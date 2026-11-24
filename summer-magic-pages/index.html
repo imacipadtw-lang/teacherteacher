@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>土城魔法書城 教師站</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* VOICE everyday team hub for four teachers, cheerful but orderly
+   IDEA a magic picture book: sections are ribbon bookmarks hanging from the cover
+   PICTURE an open book with lifting pages and stars on a cobalt cover band
+   COLOUR cobalt cover, white pages, coral + sun yellow + teal as teacher inks
+   TYPE Baloo 2 for Latin display, Noto Sans TC for everything Chinese
+   LAYOUT cover band with book at right, bookmark tabs under it, one section at a time; phone stacks */
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#0d1024);--ink:light-dark(#151833,#eef0ff);--mut:light-dark(#5a5f80,#a7acd0);--cov:light-dark(#2b3fd6,#1a238a);--pg:light-dark(#f4f6ff,#161a3a);--line:light-dark(#dfe3f7,#2a2f5a);--co:#ff5a4e;--sun:#ffc93c;--tl:#14a39a;--cb:#4d63ff}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-padding-top:80px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Noto Sans TC",system-ui,sans-serif;overflow-x:clip}
+.band{padding:clamp(24px,4vw,56px) max(5vw,16px)}
+.wrap{max-width:1240px;margin:0 auto}
+header{background:var(--cov);color:#fff}
+.hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:24px;align-items:center;padding-bottom:8px}
+.hero h1{font:800 clamp(34px,5vw,52px)/1.05 "Baloo 2","Noto Sans TC",sans-serif;letter-spacing:-.02em;margin:0 0 6px;text-wrap:balance}
+.hero h2{font-weight:900;font-size:clamp(22px,3vw,30px);margin:0 0 10px;line-height:1.2}
+.hero p{margin:0;opacity:.92;max-width:34em}
+.lock{display:inline-block;margin-top:14px;background:#fff;color:var(--cov);font-weight:700;font-size:14px;padding:4px 12px;border-radius:99px}
+.fig{position:relative;min-height:230px}.fig>svg{position:absolute;inset:0;width:100%;height:100%}
+nav{position:sticky;top:0;z-index:5;background:var(--cov);padding:0 max(5vw,16px)}
+.tabs{max-width:1240px;margin:0 auto;display:flex;gap:8px;overflow-x:auto;padding-top:6px}
+.tabs a{flex:none;display:block;text-decoration:none;color:var(--ink);background:var(--pg);font-weight:700;font-size:15px;padding:10px 16px 18px;min-height:44px;border-radius:10px 10px 0 0;clip-path:polygon(0 0,100% 0,100% 100%,50% calc(100% - 8px),0 100%);border-top:5px solid var(--c)}
+.tabs a[aria-current=page]{background:var(--bg);padding-bottom:24px}
+.tabs a:focus-visible{outline:3px solid var(--sun);outline-offset:-3px}
+section{display:none}section.on{display:block}
+h3{font-size:clamp(26px,3.4vw,34px);line-height:1.15;margin:0 0 6px;letter-spacing:-.01em}
+.lead{color:var(--mut);margin:0 0 22px}
+.nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(9em,1fr));gap:12px;margin-bottom:26px}
+.nums div{background:var(--pg);border-radius:14px;padding:14px 16px}
+.nums b{display:block;font:800 clamp(30px,4vw,40px)/1 "Baloo 2",sans-serif;color:var(--cb)}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px}
+.prog{list-style:none;margin:0;padding:0}
+.prog li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;padding:12px 0;border-bottom:1px solid var(--line)}
+.st{font-size:13px;font-weight:700;padding:3px 10px;border-radius:99px;white-space:nowrap}
+.done{background:color-mix(in srgb,var(--tl) 20%,transparent);color:light-dark(#0b6d66,#6fe0d6)}
+.doing{background:color-mix(in srgb,var(--sun) 35%,transparent);color:light-dark(#7a5600,#ffd970)}
+.wait{background:color-mix(in srgb,var(--co) 18%,transparent);color:light-dark(#b42318,#ff9a92)}
+.prog small{display:block;color:var(--mut);font-size:14px}
+.box{background:var(--pg);border-radius:16px;padding:20px 22px}
+.box h4{margin:0 0 8px;font-size:18px}
+.box ol{margin:0;padding-left:1.3em}
+.name{border-left:6px solid var(--co);padding:6px 0 6px 18px;margin-bottom:22px}
+.name .en{font:800 clamp(28px,4vw,40px)/1.1 "Baloo 2",sans-serif;color:var(--cb)}
+.name .zh{font-weight:900;font-size:clamp(22px,3vw,28px)}
+.name .sub{color:var(--mut)}
+.copy{position:relative}
+.copy p{margin:0 0 12px}
+.btn{font:inherit;font-size:15px;font-weight:700;min-height:44px;padding:8px 16px;border-radius:10px;border:2px solid var(--cb);background:transparent;color:var(--ink);cursor:pointer}
+.btn[aria-pressed=true],.btn:hover{background:var(--cb);color:#fff}
+.btn:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.days{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:14px}
+.day{background:var(--pg);border-radius:16px;padding:14px 16px}
+.day h4{margin:0 0 8px;font-size:17px;display:flex;justify-content:space-between;gap:8px}
+.day h4 span{color:var(--mut);font-weight:500;font-size:14px}
+.per{display:grid;grid-template-columns:2.2em minmax(0,1fr);gap:8px;padding:7px 0;border-top:1px solid var(--line);transition:opacity .2s}
+.per i{font-style:normal;font-weight:700;color:var(--mut);font-size:14px}
+.per .t{font-weight:700}
+.per .w{font-size:14px;color:var(--mut)}
+.chip{display:inline-block;font-size:13px;font-weight:700;padding:1px 8px;border-radius:6px;margin-right:4px;white-space:nowrap;background:color-mix(in srgb,var(--c) 22%,transparent)}
+.dim{opacity:.25}
+.note{font-size:14px;color:var(--mut);margin-top:6px}
+.team{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:14px}
+.card{background:var(--pg);border-radius:16px;padding:18px;border-top:6px solid var(--c)}
+.card h4{margin:0 0 4px;font-size:22px}
+.card .r{color:var(--mut);margin:0 0 10px;font-size:15px}
+.card ul{margin:0;padding-left:1.2em}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:16px}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.bar{height:22px;border-radius:6px;display:flex;overflow:hidden;background:var(--line);min-width:120px}
+.bar span{display:block;height:100%}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:14px;color:var(--mut);margin-top:10px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.todo{list-style:none;padding:0;margin:0}
+.todo li{padding:12px 0;border-bottom:1px solid var(--line)}
+.todo b{display:block}
+footer{background:var(--cov);color:#fff;font-size:14px}
+label{display:flex;flex-direction:column;gap:4px;font-size:14px;font-weight:700;color:var(--mut)}
+input,select{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:2px solid var(--line);border-radius:10px;padding:8px 10px;min-height:44px;width:100%}
+input:focus-visible,select:focus-visible{outline:3px solid var(--sun);outline-offset:1px;border-color:var(--cb)}
+.mset{display:flex;flex-wrap:wrap;gap:14px;align-items:end;margin-bottom:16px}
+.mset label{width:9em}
+.mtot{margin-left:auto;text-align:right}
+.mtot span{display:block;font-size:14px;color:var(--mut);font-weight:700}
+.mtot b{font:800 clamp(26px,3.4vw,34px)/1.1 "Baloo 2","Noto Sans TC",sans-serif;color:var(--cb);white-space:nowrap}
+.mform{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:10px}
+.mform .w2{grid-column:span 2}
+.mbtns{grid-column:1/-1;display:flex;gap:10px;flex-wrap:wrap}
+.btn.solid{background:var(--cb);color:#fff}
+.mgrp{margin-top:22px}
+.mgrp h4{margin:0 0 6px;font-size:18px;display:flex;justify-content:space-between;gap:10px}
+.mgrp h4 span{color:var(--mut);font-size:15px;font-weight:500}
+.mempty{color:var(--mut);font-size:15px;padding:8px 0}
+.act{display:flex;gap:6px}
+.act button{font:inherit;font-size:14px;min-height:36px;padding:4px 10px;border-radius:8px;border:1px solid var(--line);background:var(--pg);color:var(--ink);cursor:pointer}
+@media(max-width:760px){.mform{grid-template-columns:repeat(2,minmax(0,1fr))}.mtot{margin-left:0;text-align:left}}
+@media(max-width:760px){.hero{grid-template-columns:1fr}.fig{min-height:180px}.grid2{grid-template-columns:1fr}}
+@media(max-width:600px){table{font-size:14px}th,td{padding:8px 6px}}
+@media(prefers-reduced-motion:reduce){.flap{animation:none!important}}
+.flap{transform-box:fill-box;transform-origin:left center;animation:flap 4s ease-in-out infinite}
+@keyframes flap{0%,60%,100%{transform:scaleX(1)}30%{transform:scaleX(.55)}}
+</style>
+</head>
+<body>
+<header class="band">
+  <div class="wrap hero">
+    <div>
+      <h1>Magic Pages @ Tucheng</h1>
+      <h2>Magic Pages 土城魔法書城</h2>
+      <p>跨領域英語創作與數位出版課程・116年夏日樂學　教師工作站</p>
+      <span class="lock">內部資料・請勿外流</span>
+    </div>
+    <div class="fig" aria-hidden="true"><svg id="book"></svg></div>
+  </div>
+</header>
+<nav aria-label="分類書籤"><div class="tabs" id="tabs">
+  <a href="#overview" style="--c:var(--co)">進度總覽</a>
+  <a href="#name" style="--c:var(--sun)">名稱與介紹</a>
+  <a href="#schedule" style="--c:var(--tl)">60節排課表</a>
+  <a href="#team" style="--c:var(--cb)">老師分工</a>
+  <a href="#hours" style="--c:var(--co)">節數統計</a>
+  <a href="#materials" style="--c:var(--tl)">材料清單</a>
+  <a href="#todo" style="--c:var(--sun)">待辦與提醒</a>
+</div></nav>
+
+<main class="band"><div class="wrap">
+
+<section id="overview">
+  <h3>課程架構已定案，接下來請老師回覆意見</h3>
+  <p class="lead">學生分組合作完成英語有聲電子繪本，最後舉辦新書發表會。最後更新：115年11月24日</p>
+  <div class="nums">
+    <div><b>15</b>天（下午）</div>
+    <div><b>60</b>節課</div>
+    <div><b>4</b>位老師</div>
+    <div><b>1+2</b>每節主教＋助教</div>
+  </div>
+  <div class="grid2">
+    <div>
+      <h4 style="font-size:20px;margin:0 0 4px">目前進度</h4>
+      <ul class="prog" id="prog"></ul>
+    </div>
+    <div class="box">
+      <h4>想請各位老師回覆</h4>
+      <ol>
+        <li>這樣的方向，老師覺得可行嗎？</li>
+        <li>比較傾向全班合寫一本，還是分組各寫一本？（每本約20頁）</li>
+        <li>時間或分量上，有沒有比較吃力的地方？</li>
+        <li>有沒有特別想做的部分或其他建議？</li>
+      </ol>
+      <p class="note">這只是初步構想，不適合的地方我們再一起討論。謝謝大家！　怡璇</p>
+    </div>
+  </div>
+</section>
+
+<section id="name">
+  <h3>營隊名稱與介紹文字</h3>
+  <p class="lead">招生用主名稱保留神祕感，計畫書加上副標讓評審看懂課程主軸。</p>
+  <div class="name">
+    <div class="en">Magic Pages @ Tucheng</div>
+    <div class="zh">Magic Pages 土城魔法書城</div>
+    <div class="sub">——跨領域英語創作與數位出版課程</div>
+  </div>
+  <div class="grid2">
+    <div class="box copy">
+      <h4>計畫書版</h4>
+      <p id="t1">在這座魔法書城裡，孩子將化身小作家，用英文構思並寫出屬於自己的故事，跟著美術老師設計角色、繪製插圖，練習用英語朗讀為故事配音，再透過程式設計創作互動遊戲。最後，孩子會親手把作品變成會說話、會動的電子繪本，舉辦屬於自己的新書發表會，讓每位孩子在國小階段就擁有自己的第一本書。</p>
+      <button class="btn" data-copy="t1">複製文字</button>
+    </div>
+    <div class="box copy">
+      <h4>招生版</h4>
+      <p id="t2">歡迎來到土城魔法書城！這個夏天，你將接下一項神祕任務：用英文創造一個屬於自己的故事。你會設計角色、畫出插畫、練習當配音員，還要學會寫程式，讓角色跟你互動。15 天後，你的故事會變成一本會說話、會動起來的魔法書，還會舉辦屬於你的新書發表會！準備好成為小作家了嗎？</p>
+      <button class="btn" data-copy="t2">複製文字</button>
+    </div>
+  </div>
+</section>
+
+<section id="schedule">
+  <h3>60節排課表：每節 1 位主教、2 位助教（助教最多 2 位）</h3>
+  <p class="lead">點老師的名字，只看那位老師要出席的節次。</p>
+  <div class="filters" id="filters"></div>
+  <div class="days" id="days"></div>
+  <p class="note">日期待確認：若第1天為7/1（四）且只上平日，第15天為7/21（三）。</p>
+</section>
+
+<section id="team">
+  <h3>四位老師各展專長，串成同一本書</h3>
+  <p class="lead">每位老師主教自己的專長，其他時間互相擔任助教，協助秩序管理與個別指導。</p>
+  <div class="team" id="cards"></div>
+</section>
+
+<section id="hours">
+  <h3>三位老師的總節數完全相同，各 56 節</h3>
+  <p class="lead">以下數字由排課表自動計算。</p>
+  <div class="scroll"><table>
+    <thead><tr><th>老師</th><th class="n">主教</th><th class="n">助教</th><th class="n">合計</th><th style="width:40%">分布</th></tr></thead>
+    <tbody id="stat"></tbody>
+  </table></div>
+  <div class="legend"><span><i style="background:var(--cb)"></i>主教</span><span><i style="background:var(--sun)"></i>助教</span></div>
+</section>
+
+<section id="materials">
+  <h3>材料需求清單：請各位老師填寫自己課程要用的材料</h3>
+  <p class="lead">選自己的名字，填品名、單位、計算方式和每份數量，總數量會依人數自動算。單價不確定可以先空著。</p>
+  <div class="mset">
+    <label>預計人數<input id="m-people" type="number" min="1" value="20" inputmode="numeric"></label>
+    <label>分組數<input id="m-groups" type="number" min="1" value="5" inputmode="numeric"></label>
+    <div class="mtot"><span>預算合計</span><b id="m-total">NT$ 0</b></div>
+  </div>
+  <form id="m-form" class="box mform">
+    <label>填寫老師<select id="m-teacher"><option>怡伶</option><option>韻如</option><option>詠裕</option><option>怡璇</option></select></label>
+    <label class="w2">品名<input id="m-name" required placeholder="例：A4 圖畫紙"></label>
+    <label>單位<input id="m-unit" required placeholder="例：張、盒、包"></label>
+    <label>計算方式<select id="m-basis"><option>每人</option><option>每組</option><option>全班</option></select></label>
+    <label>每份數量<input id="m-qty" type="number" min="0" step="any" required inputmode="decimal"></label>
+    <label>單價（選填）<input id="m-price" type="number" min="0" step="any" inputmode="decimal"></label>
+    <label class="w2">使用課程／天數<input id="m-lesson" placeholder="例：第4天 插圖繪製"></label>
+    <label class="w2">規格與備註<input id="m-note" placeholder="例：200磅"></label>
+    <div class="mbtns"><button class="btn solid" id="m-save" type="submit">新增材料</button><button class="btn" id="m-cancel" type="button" hidden>取消修改</button></div>
+  </form>
+  <p class="note" id="m-status">正在連線共用清單…</p>
+  <div id="m-list"></div>
+</section>
+
+<section id="todo">
+  <h3>開課前要完成的事</h3>
+  <p class="lead">依時間先後排列。</p>
+  <ul class="todo">
+    <li><b>報名時：收家長授權同意書</b>同意學生的文字、插圖、朗讀錄音公開發表，並可製作成動畫播放。</li>
+    <li><b>撰寫計畫書與教材教具預算</b>預算要列教材教具，以利核銷。</li>
+    <li><b>確認招生年級與營隊日期</b>中年級和高年級在操作深度上差很多，會影響每天的內容。</li>
+    <li><b>決定全班一本或分組各一本</b>分組的話，每本都要約20頁，工作量跟著本數增加。</li>
+    <li><b>第9天前：插圖拍照或掃描成檔案（韻如）</b>電子書製作那幾天才能直接使用。</li>
+    <li><b>第9天前：朗讀練熟（怡伶）</b>錄音時比較不用重錄。</li>
+    <li><b>第14天：互動遊戲產生連結（詠裕）</b>放進電子書書末。</li>
+    <li><b>第15天：成果展演全程錄影（怡璇）</b>當作計畫成果影片。</li>
+  </ul>
+</section>
+
+</div></main>
+<footer class="band"><div class="wrap">南投縣草屯鎮土城國民小學・116年夏日樂學　Magic Pages 土城魔法書城</div></footer>
+
+<script>
+{
+const C={怡伶:'var(--co)',韻如:'var(--sun)',詠裕:'var(--tl)',怡璇:'var(--cb)'};
+const T=['怡伶','韻如','詠裕','怡璇'];
+const J=(a,b,c,d)=>[['怡伶','韻如','詠裕',a],['怡伶','韻如','詠裕',b],['韻如','怡伶','詠裕',c],['韻如','怡伶','詠裕',d]];
+const Y=(a,b,c,d)=>[a,b,c,d].map(x=>['詠裕','怡伶','韻如',x]);
+const X=(p,q,a,b,c,d)=>[['怡璇',...p,a],['怡璇',...p,b],['怡璇',...q,c],['怡璇',...q,d]];
+const D=[
+ J('營隊開場、英語暖身','故事主題發想','角色設定：外型與個性','角色草圖'),
+ J('故事結構：開頭、問題、結局','分組撰寫英文故事大綱','角色設計定稿','角色配色'),
+ J('故事分頁：每頁一句','英文句型練習','分鏡草圖（一）','分鏡草圖（二）'),
+ J('句子潤飾（一）','生字與發音練習','插圖繪製（一）','插圖繪製（二）'),
+ J('朗讀練習：語調與停頓','分組朗讀','插圖上色（一）','插圖上色（二）'),
+ J('句子潤飾（二）','朗讀練習：角色配音','插圖上色（三）','背景與細節'),
+ Y('程式設計入門','角色匯入與造型','角色動作設定','場景設定'),
+ Y('互動遊戲規劃：英文問答','互動遊戲製作（一）','互動遊戲製作（二）','互動遊戲製作（三）'),
+ J('朗讀定稿','朗讀小組互評','封面設計','插圖收尾、作品數位化'),
+ Y('加入英文音效與提示','計分與關卡設計','互動遊戲進階','測試與除錯'),
+ X(['怡伶','詠裕'],['韻如','詠裕'],'電子書製作（一）','電子書製作（二）','電子書製作（三）','電子書製作（四）'),
+ X(['怡伶','韻如'],['怡伶','詠裕'],'電子書製作（五）','電子書製作（六）','電子書製作（七）','電子書製作（八）'),
+ X(['韻如','詠裕'],['怡伶','韻如'],'電子書製作（九）','電子書製作（十）','電子書製作（十一）','電子書製作（十二）'),
+ Y('互動遊戲完成','連結電子書','試玩交流','修正與定稿'),
+ J('成果展演彩排','英文朗讀發表','新書發表會','作品展覽、回饋與結業')
+];
+const note={15:'成果錄影由怡璇另行處理，不是助教，也不計入節數。'};
+const chip=n=>`<span class="chip" style="--c:${C[n]}">${n}</span>`;
+let who='全部';
+const renderDays=()=>{
+ document.getElementById('days').innerHTML=D.map((d,i)=>`<div class="day"><h4>第${i+1}天<span>${[...new Set(d.map(p=>p[0]))].join('、')}主教</span></h4>${d.map((p,k)=>`<div class="per${who!=='全部'&&!p.slice(0,3).includes(who)?' dim':''}"><i>${k+1}</i><div><div class="t">${p[3]}</div><div class="w">主教 ${chip(p[0])} 助教 ${chip(p[1])}${chip(p[2])}</div></div></div>`).join('')}${note[i+1]?`<p class="note">${note[i+1]}</p>`:''}</div>`).join('');
+};
+const f=document.getElementById('filters');
+f.innerHTML=['全部',...T].map(n=>`<button class="btn" id="f-${n}" aria-pressed="${n===who}">${n}</button>`).join('');
+f.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;who=b.textContent;f.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderDays()});
+renderDays();
+
+const S={};T.forEach(n=>S[n]={m:0,a:0});
+D.flat().forEach(p=>{S[p[0]].m++;S[p[1]].a++;S[p[2]].a++});
+const max=Math.max(...T.map(n=>S[n].m+S[n].a));
+document.getElementById('stat').innerHTML=T.map(n=>{const s=S[n],t=s.m+s.a;return `<tr><td>${chip(n)}</td><td class="n">${s.m} 節</td><td class="n">${s.a?s.a+' 節':'—'}</td><td class="n"><b>${t} 節</b></td><td><div class="bar" style="width:${t/max*100}%"><span style="width:${s.m/t*100}%;background:var(--cb)"></span><span style="width:${s.a/t*100}%;background:var(--sun)"></span></div></td></tr>`}).join('')+`<tr><td><b>合計</b></td><td class="n"><b>${D.flat().length} 節</b></td><td class="n"><b>${D.flat().length*2} 節</b></td><td></td><td></td></tr>`;
+
+const R=[
+ ['怡伶','英語故事與朗讀',['帶學生構思並撰寫英文故事','句子潤飾、生字與發音','朗讀練習與角色配音','主持成果展演的英文朗讀發表']],
+ ['韻如','美術與插畫',['角色設定與設計','分鏡、插圖繪製與上色','封面設計','插圖數位化（第9天前）']],
+ ['詠裕','程式設計',['程式設計入門與角色匯入','英文互動遊戲製作','加入英文音效、計分與關卡','遊戲完成並連結到電子書']],
+ ['怡璇','電子書製作與統籌',['電子書製作（3天）','成果展演全程錄影','出版相關行政作業','計畫統籌與聯絡']]
+];
+document.getElementById('cards').innerHTML=R.map(r=>`<div class="card" style="--c:${C[r[0]]}"><h4>${r[0]}</h4><p class="r">${r[1]}・主教 ${S[r[0]].m} 節${S[r[0]].a?'・助教 '+S[r[0]].a+' 節':''}</p><ul>${r[2].map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('');
+
+const P=[
+ ['done','課程方向','英語創作＋數位出版，全班分組合作完成英語有聲電子繪本'],
+ ['done','營隊名稱與介紹文字','Magic Pages 土城魔法書城，計畫書版與招生版各一份'],
+ ['done','60節排課與助教分配','每節1主教2助教，三位老師各56節'],
+ ['doing','徵詢老師意見','請在右邊回覆四個問題'],
+ ['doing','材料需求清單','請到「材料清單」書籤填寫自己課程要用的材料（以20人計）'],
+ ['wait','全班一本或分組各一本','待老師討論決定'],
+ ['wait','招生年級與營隊日期','待確認'],
+ ['wait','計畫書與教材教具預算','待撰寫'],
+ ['wait','家長授權同意書','報名時一起收']
+];
+const L={done:'已定案',doing:'進行中',wait:'待確認'};
+document.getElementById('prog').innerHTML=P.map(p=>`<li><span class="st ${p[0]}">${L[p[0]]}</span><div><b>${p[1]}</b><small>${p[2]}</small></div></li>`).join('');
+
+document.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(document.getElementById(b.dataset.copy).textContent);b.textContent='已複製'}catch(e){b.textContent='請手動選取文字'}setTimeout(()=>b.textContent='複製文字',1800)}));
+
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $=id=>document.getElementById(id);
+const fmt=n=>'NT$ '+Math.round(n).toLocaleString('zh-TW');
+let items=[],cfg={people:20,groups:5},mdb=null,editId=null;
+const total=it=>{const q=Number(it.qty)||0;return it.basis==='每人'?q*cfg.people:it.basis==='每組'?q*cfg.groups:q};
+const renderM=()=>{
+ $('m-people').value=cfg.people;$('m-groups').value=cfg.groups;
+ let sum=0;
+ $('m-list').innerHTML=T.map(t=>{const rows=items.filter(i=>i.teacher===t);let sub=0;
+  const tr=rows.map(i=>{const q=total(i),p=Number(i.price),s=i.price!==''&&i.price!=null&&!isNaN(p)?q*p:null;if(s!=null)sub+=s;
+   return `<tr><td>${esc(i.name)}</td><td>${esc(i.unit)}</td><td>${esc(i.basis)}</td><td class="n">${esc(i.qty)}</td><td class="n"><b>${esc(+q.toFixed(2))}</b></td><td class="n">${s==null?'—':esc(p)}</td><td class="n">${s==null?'—':fmt(s)}</td><td>${esc([i.lesson,i.note].filter(Boolean).join('／'))}</td><td>${mdb?`<div class="act"><button data-e="${esc(i.id)}">編輯</button><button data-d="${esc(i.id)}">刪除</button></div>`:''}</td></tr>`}).join('');
+  sum+=sub;
+  return `<div class="mgrp"><h4>${chip(t)}<span>${rows.length} 項・小計 ${fmt(sub)}</span></h4>${rows.length?`<div class="scroll"><table><thead><tr><th>品名</th><th>單位</th><th>計算方式</th><th class="n">每份</th><th class="n">總數量</th><th class="n">單價</th><th class="n">小計</th><th>課程／備註</th><th></th></tr></thead><tbody>${tr}</tbody></table></div>`:'<p class="mempty">還沒有填寫材料。</p>'}</div>`}).join('');
+ $('m-total').textContent=fmt(sum);
+};
+const resetForm=()=>{editId=null;$('m-form').reset();$('m-save').textContent='新增材料';$('m-cancel').hidden=true};
+$('m-cancel').addEventListener('click',resetForm);
+$('m-form').addEventListener('submit',async e=>{e.preventDefault();if(!mdb)return;
+ const it={teacher:$('m-teacher').value,name:$('m-name').value.trim(),unit:$('m-unit').value.trim(),basis:$('m-basis').value,qty:$('m-qty').value,price:$('m-price').value,lesson:$('m-lesson').value.trim(),note:$('m-note').value.trim(),at:Date.now()};
+ if(!it.name||!it.unit||it.qty==='')return;
+ const b=$('m-save');b.disabled=true;
+ try{const col=mdb.collection('materials');await (editId?col.doc(editId).set(it):col.add(it));const keep=it.teacher;resetForm();$('m-teacher').value=keep;$('m-status').textContent='已儲存，其他老師也看得到。'}
+ catch(err){$('m-status').textContent=err&&err.code==='invalid_argument'?'你目前只有檢視權限，請請怡璇把你設為可以編輯。':'儲存失敗，請稍後再試一次。'}
+ b.disabled=false});
+$('m-list').addEventListener('click',async e=>{const b=e.target.closest('button');if(!b||!mdb)return;
+ if(b.dataset.e){const i=items.find(x=>x.id===b.dataset.e);if(!i)return;editId=i.id;['teacher','name','unit','basis','qty','price','lesson','note'].forEach(k=>$('m-'+k).value=i[k]??'');$('m-save').textContent='儲存修改';$('m-cancel').hidden=false;$('m-form').scrollIntoView({behavior:'smooth',block:'start'})}
+ if(b.dataset.d){if(b.dataset.ok!=='1'){b.dataset.ok='1';b.textContent='確定刪除？';setTimeout(()=>{b.dataset.ok='';b.textContent='刪除'},3000);return}
+  try{await mdb.collection('materials').doc(b.dataset.d).delete()}catch(err){$('m-status').textContent='刪除失敗，請稍後再試。'}}});
+const saveCfg=async()=>{const p=Math.max(1,parseInt($('m-people').value)||20),g=Math.max(1,parseInt($('m-groups').value)||5);if(p===cfg.people&&g===cfg.groups)return;cfg={people:p,groups:g};renderM();if(mdb){try{await mdb.doc('settings/main').set(cfg)}catch(err){$('m-status').textContent='人數沒有儲存成功。'}}};
+$('m-people').addEventListener('change',saveCfg);$('m-groups').addEventListener('change',saveCfg);
+renderM();
+(async()=>{
+ const db=window.claude&&window.claude.use?await window.claude.use('db'):null;
+ if(!db){$('m-status').textContent='目前無法連到共用清單，請登入 claude.ai 後重新開啟這個網頁。';$('m-save').disabled=true;return}
+ mdb=db;let loaded=false;
+ const timer=setTimeout(()=>{if(!loaded)$('m-status').textContent='清單還在載入中，網路可能比較慢。'},10000);
+ db.doc('settings/main').onSnapshot(s=>{if(s.exists){const d=s.data();cfg={people:Number(d.people)||20,groups:Number(d.groups)||5};renderM()}},()=>{});
+ db.collection('materials').orderBy('at').onSnapshot(s=>{if(!s.metadata.fromCache){loaded=true;clearTimeout(timer);$('m-status').textContent='四位老師填的內容都會即時同步。'}items=s.docs.map(d=>({id:d.id,...d.data()}));renderM()},()=>{clearTimeout(timer);$('m-status').textContent='共用清單連線中斷，請重新開啟網頁。'});
+})();
+
+const ids=['overview','name','schedule','team','hours','materials','todo'];
+const show=()=>{const h=location.hash.slice(1);const id=ids.includes(h)?h:'overview';ids.forEach(x=>document.getElementById(x).classList.toggle('on',x===id));document.querySelectorAll('#tabs a').forEach(a=>a.getAttribute('href')==='#'+id?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'))};
+window.addEventListener('hashchange',show);show();
+
+const s=document.getElementById('book');
+const draw=()=>{const W=s.clientWidth,H=s.clientHeight;if(!W||!H)return;const bw=Math.min(W*.9,H*1.7),bh=bw*.52,x=(W-bw)/2,y=(H-bh)/2+8,m=x+bw/2;
+let st='';for(let i=0;i<9;i++){const sx=x+((i*97)%100)/100*bw,sy=y-18+((i*53)%60)/60*(bh*.5)-bh*.25,r=3+(i%3)*2;st+=`<path d="M${sx} ${sy-r*2}L${sx+r*.6} ${sy-r*.6}L${sx+r*2} ${sy}L${sx+r*.6} ${sy+r*.6}L${sx} ${sy+r*2}L${sx-r*.6} ${sy+r*.6}L${sx-r*2} ${sy}L${sx-r*.6} ${sy-r*.6}Z" fill="${i%2?'#ffc93c':'#fff'}" opacity="${.6+(i%3)*.15}"/>`}
+s.innerHTML=`${st}<ellipse cx="${m}" cy="${y+bh+10}" rx="${bw*.46}" ry="10" fill="#000" opacity=".2"/>
+<path d="M${x} ${y+12}Q${m-bw*.22} ${y-6} ${m} ${y+14}V${y+bh}Q${m-bw*.22} ${y+bh-18} ${x} ${y+bh-4}Z" fill="#ff5a4e"/>
+<path d="M${x+bw} ${y+12}Q${m+bw*.22} ${y-6} ${m} ${y+14}V${y+bh}Q${m+bw*.22} ${y+bh-18} ${x+bw} ${y+bh-4}Z" fill="#ff5a4e"/>
+<path d="M${x+8} ${y+4}Q${m-bw*.2} ${y-14} ${m} ${y+6}V${y+bh-8}Q${m-bw*.2} ${y+bh-26} ${x+8} ${y+bh-12}Z" fill="#fff"/>
+<path d="M${x+bw-8} ${y+4}Q${m+bw*.2} ${y-14} ${m} ${y+6}V${y+bh-8}Q${m+bw*.2} ${y+bh-26} ${x+bw-8} ${y+bh-12}Z" fill="#eef1ff"/>
+${[0,1,2,3].map(k=>`<rect x="${x+bw*.08}" y="${y+bh*(.22+k*.14)}" width="${bw*(.3-k*.04)}" height="6" rx="3" fill="#c9d0f5"/>`).join('')}
+<circle cx="${x+bw*.76}" cy="${y+bh*.38}" r="${bh*.14}" fill="#ffc93c"/><path d="M${x+bw*.6} ${y+bh*.78}L${x+bw*.7} ${y+bh*.55}L${x+bw*.8} ${y+bh*.72}L${x+bw*.86} ${y+bh*.62}L${x+bw*.92} ${y+bh*.78}Z" fill="#14a39a"/>
+<path class="flap" d="M${m} ${y+6}Q${m+bw*.2} ${y-14} ${x+bw-8} ${y+4}V${y+bh-12}Q${m+bw*.2} ${y+bh-26} ${m} ${y+bh-8}Z" fill="#fff" opacity=".85"/>
+<rect x="${m-3}" y="${y+bh-12}" width="6" height="${Math.min(40,H-y-bh+6)}" fill="#ffc93c"/>`};
+const ro=new ResizeObserver(draw);ro.observe(s);
+}
+</script>
+</body>
+</html>
