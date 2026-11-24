@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=LXGW+WenKai+TC:wght@400;700&display=swap" rel="stylesheet">
+<style>html,body{margin:0;width:1080px;height:1350px;overflow:hidden;background:#fbf3e2}svg{display:block}</style>
+</head><body>
+<svg id="s" width="1080" height="1350" viewBox="0 0 1080 1350" xmlns="http://www.w3.org/2000/svg"></svg>
+<script>
+const S=document.getElementById('s');
+const INK='#4a3428';
+const SDG=['#E5243B','#DDA63A','#4C9F38','#C5192D','#FF3A21','#26BDE2','#FCC30B','#A21942','#FD6925','#DD1367','#FD9D24','#BF8B2E','#3F7E44','#0A97D9','#56C02B','#00689D','#19486A'];
+const cl=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+const eo=x=>1-Math.pow(1-cl(x),3);
+const back=x=>{x=cl(x);const c=1.6;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
+// watercolor fill + pencil line helpers
+const wc=(d,c,o=.85)=>`<path d="${d}" fill="${c}" opacity="${o}" filter="url(#wc)"/><path d="${d}" fill="none" stroke="${c}" stroke-width="5" opacity=".45" filter="url(#wc)"/>`;
+const wcs=(d,c)=>`<path d="${d}" fill="${c}" filter="url(#pen)"/>`+wc(d,c,.7);
+const pen=(d,w=3)=>`<path d="${d}" fill="none" stroke="${INK}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" filter="url(#pen)"/>`;
+const circ=(cx,cy,r)=>`M${cx-r} ${cy}a${r} ${r} 0 1 0 ${r*2} 0a${r} ${r} 0 1 0 ${-r*2} 0`;
+const eyes=(x,y,r,blink)=>blink?pen(`M${x-r} ${y}q${r} ${r*.6} ${r*2} 0`,3.5):`<ellipse cx="${x}" cy="${y}" rx="${r}" ry="${r*1.15}" fill="${INK}"/><circle cx="${x+r*.35}" cy="${y-r*.4}" r="${r*.42}" fill="#fff"/><circle cx="${x-r*.35}" cy="${y+r*.35}" r="${r*.18}" fill="#fff"/>`;
+const sparkle=(x,y,r,c)=>`<path d="M${x} ${y-r}Q${x+r*.15} ${y-r*.15} ${x+r} ${y}Q${x+r*.15} ${y+r*.15} ${x} ${y+r}Q${x-r*.15} ${y+r*.15} ${x-r} ${y}Q${x-r*.15} ${y-r*.15} ${x} ${y-r}Z" fill="${c}" opacity=".9" filter="url(#wc)"/>`;
+// chibi kid
+const kid=(t,o)=>{const {sh,hair,girl,prop,ph}=o;const wave=Math.sin(t*6+ph)*24;const blink=((t+ph)%3.2)<.12;
+ let g=`<ellipse cx="0" cy="158" rx="56" ry="12" fill="${INK}" opacity=".13"/>`;
+ if(girl){g+=`<g transform="rotate(${Math.sin(t*5)*8} -60 40)">${wc('M-66 34q-34 30 -14 70q14 -20 18 -60z',hair,.95)}${pen('M-66 34q-34 30 -14 70q14 -20 18 -60',2)}</g><g transform="rotate(${-Math.sin(t*5)*8} 60 40)">${wc('M66 34q34 30 14 70q-14 -20 -18 -60z',hair,.95)}${pen('M66 34q34 30 14 70q-14 -20 -18 -60',2)}</g>`}
+ g+=wc('M-60 6Q-62 -66 0 -66Q62 -66 60 6Q66 54 50 60H-50Q-66 54 -60 6Z',hair,.95);
+ g+=wcs('M-30 78Q-40 150 -26 152H26Q40 150 30 78Q0 64 -30 78Z',sh)+pen('M-30 78Q-40 150 -26 152H26Q40 150 30 78Q0 64 -30 78Z',2.5);
+ g+=wc('M-22 150v10h14v-10M8 150v10h14v-10','#7a5a46',1);
+ g+=`<g transform="rotate(${-30+wave} 26 90)">${wc('M24 92q26 -8 40 -40',sh)}${pen('M24 92q26 -8 40 -40',3)}${wc(circ(66,48,10),'#f8d6bf',1)}${prop}</g>`;
+ g+=wc('M-26 92q-18 20 -14 40','#f8d6bf',1)+pen('M-26 92q-18 20 -14 40',3);
+ g+=wcs(circ(0,14,62),'#f8d6bf')+pen('M-62 14a62 62 0 1 0 124 0a62 62 0 1 0 -124 0',2.5);
+ g+=wc(girl?'M-62 6Q-58 -54 0 -56Q58 -54 62 6Q46 -14 32 -6Q22 -28 0 -18Q-22 -28 -32 -6Q-46 -14 -62 6Z':'M-62 4Q-58 -54 0 -56Q58 -54 62 4Q40 -18 20 -10Q6 -30 -12 -14Q-34 -26 -62 4Z',hair,.97);
+ g+=girl?wc('M14 -54l18 -16 6 20zM14 -54l-2 -22 18 8z','#e5534b',.95):wc('M4 -56q6 -22 22 -20q-14 6 -10 22z',hair,.97);
+ const ey=(x)=>blink?pen(`M${x-13} 22q13 9 26 0`,3.5):`<ellipse cx="${x}" cy="20" rx="13" ry="16" fill="${INK}"/><circle cx="${x+5}" cy="13" r="6" fill="#fff"/><circle cx="${x-5}" cy="27" r="2.6" fill="#fff"/><circle cx="${x+6}" cy="27" r="1.4" fill="#fff"/>`;
+ g+=ey(-24)+ey(24);
+ g+=`<ellipse cx="-40" cy="44" rx="13" ry="8" fill="#f2847a" opacity=".55" filter="url(#wc)"/><ellipse cx="40" cy="44" rx="13" ry="8" fill="#f2847a" opacity=".55" filter="url(#wc)"/>`;
+ g+=`<path d="M-11 42Q0 58 11 42Z" fill="#c8553d"/><path d="M-5 50q5 4 10 0" fill="#f29e8e"/>`+pen('M-11 42Q0 58 11 42',2.2);
+ return g};
+// castle mascot 小土堡
+const castle=(t)=>{const blink=(t%3.7)<.12;const sq=1+Math.sin(t*3)*.025;
+ let g=`<g transform="scale(${1/sq} ${sq})" style="transform-origin:0 0">`;
+ g+=`<ellipse cx="0" cy="168" rx="170" ry="20" fill="${INK}" opacity=".12"/>`;
+ // towers
+ [[-150,-40],[150,-40]].forEach(([x,y])=>{g+=wc(`M${x-42} ${y}V160H${x+42}V${y}Z`,'#e89a5c')+pen(`M${x-42} ${y}V160H${x+42}V${y}`,2.5);g+=wc(`M${x-56} ${y+4}L${x} ${y-80}L${x+56} ${y+4}Z`,'#c8553d')+pen(`M${x-56} ${y+4}L${x} ${y-80}L${x+56} ${y+4}`,2.5);g+=wc(`M${x-10} ${y+40}h20v28h-20z`,'#7cc9b3')});
+ // main keep with crenels
+ const top='M-110 -60h30v-26h30v26h30v-26h30v26h30v-26h30v26h30V160H-110Z';
+ g+=wc(top,'#f0b071')+pen(top,3);
+ // face
+ g+=eyes(-42,10,14,blink)+eyes(42,10,14,blink);
+ g+=`<ellipse cx="-74" cy="40" rx="16" ry="10" fill="#f29e8e" opacity=".6" filter="url(#wc)"/><ellipse cx="74" cy="40" rx="16" ry="10" fill="#f29e8e" opacity=".6" filter="url(#wc)"/>`;
+ g+=`<path d="M-16 38Q0 58 16 38Z" fill="#c8553d"/>`+pen('M-16 38Q0 58 16 38',2.5);
+ // book door
+ const f=Math.sin(t*4);
+ g+=wc('M0 90Q-34 78 -62 86V160Q-34 152 0 160Z','#fffaf0',1)+wc('M0 90Q34 78 62 86V160Q34 152 0 160Z','#fffaf0',1);
+ g+=pen('M0 90Q-34 78 -62 86V160Q-34 152 0 160Z',2.5)+pen('M0 90Q34 78 62 86V160Q34 152 0 160Z',2.5);
+ g+=pen(`M0 92Q${30*f} 80 ${58*f} 88V156Q${30*f} 150 0 158`,2);
+ g+='</g>';
+ // SDG bunting between towers
+ const pts=[];for(let i=0;i<17;i++){const u=i/16;const x=-150+300*u;const y=-118+Math.sin(u*Math.PI)*46+Math.sin(t*3+u*6)*4;pts.push([x,y])}
+ g+=pen(`M-150 -120Q0 ${-50+Math.sin(t*3)*4} 150 -120`,2);
+ pts.forEach(([x,y],i)=>{const sw=Math.sin(t*5+i)*12;g+=`<g transform="translate(${x} ${y}) rotate(${sw})">${wc('M-8 0h16l-8 22z',SDG[i],.95)}</g>`});
+ return g};
+// flying winged book
+const fbook=(t,c)=>{const w=Math.sin(t*10)*35;
+ return `<g transform="rotate(${-w} -8 0)">${wc('M-8 0Q-40 -30 -70 -18Q-54 -4 -8 6Z','#fff',1)}${pen('M-8 0Q-40 -30 -70 -18Q-54 -4 -8 6',2)}</g><g transform="rotate(${w} 8 0)">${wc('M8 0Q40 -30 70 -18Q54 -4 8 6Z','#fff',1)}${pen('M8 0Q40 -30 70 -18Q54 -4 8 6',2)}</g>${wc('M-26 -16h52v40h-52z',c)}${pen('M-26 -16h52v40h-52zM0 -16v40',2.5)}`};
+const chips=[['寫英文故事','#f29e8e'],['畫水彩繪本','#ffd36e'],['寫程式做遊戲','#7cc9b3'],['做會說話的電子書','#b8a2e0']];
+window.draw=function(t){
+ const seed=Math.floor(t*8)%4+1; // boiling line
+ let o=`<defs>
+ <filter id="wc" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="${seed}" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="7" result="d"/><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="${seed+9}" result="g"/><feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -0.9 1.15" result="ga"/><feComposite in="d" in2="ga" operator="in"/></filter>
+ <filter id="pen" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="2" seed="${seed+3}" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.5"/></filter>
+ <filter id="paper"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" seed="4"/><feColorMatrix values="0 0 0 0 0.45  0 0 0 0 0.35  0 0 0 0 0.25  0 0 0 0.05 0"/></filter>
+ <filter id="txt"><feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="${seed}" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.5"/></filter>
+ </defs>`;
+ o+=`<rect width="1080" height="1350" fill="#fbf3e2"/>`;
+ // washes
+ o+=wc('M-40 -40H1120V380Q820 450 540 400Q240 350 -40 420Z','#ffd98e',.55);
+ o+=wc('M-40 1170Q300 1120 540 1160Q820 1200 1120 1150V1400H-40Z','#e9a36e',.6);
+ o+=`<ellipse cx="540" cy="760" rx="440" ry="300" fill="#bfe3d4" opacity=".35" filter="url(#wc)"/>`;
+ // top handwritten tag
+ const tg=eo(t/.6);
+ o+=`<g opacity="${tg}" filter="url(#txt)"><text x="540" y="${70-20*(1-tg)}" text-anchor="middle" font-family="LXGW WenKai TC" font-weight="700" font-size="34" fill="#c8553d">116 夏日樂學 ・ 土城國小英語營隊</text></g>`;
+ o+=pen(`M330 ${86} q105 10 210 0 t210 0`,2);
+ // title
+ const tcol=['#c8553d','#e08a3c','#d1a12e','#4c9f6e','#2f8fb0','','#8a6cc0','#c8553d','#e08a3c','#4c9f6e','#2f8fb0'];
+ let x=540-("Magic Pages".length*29);
+ [..."Magic Pages"].forEach((ch,i)=>{const p=back((t-.3-i*.07)/.5);const bob=t>2?Math.sin(t*3+i*.7)*6:0;const r=Math.sin(t*2+i)*5;
+  if(ch!==' ')o+=`<text x="${x+i*58+29}" y="${225-(1-p)*220+bob}" text-anchor="middle" font-family="Caveat Brush" font-size="150" fill="${tcol[i]}" opacity="${cl(p*2)*.92}" stroke="${INK}" stroke-width="2.5" paint-order="stroke" filter="url(#txt)" transform="rotate(${r} ${x+i*58+29} 190)">${ch}</text>`});
+ const zh=back((t-1.2)/.6);
+ o+=`<g transform="translate(540 318) scale(${zh}) translate(-540 -318)" filter="url(#txt)"><text x="540" y="345" text-anchor="middle" font-family="LXGW WenKai TC" font-weight="700" font-size="88" fill="${INK}">土城魔法書城</text></g>`;
+ // castle mascot
+ const cs=back((t-.5)/.8);
+ o+=`<g transform="translate(540 ${700+Math.sin(t*2)*6}) scale(${cs*0.95})">${castle(t)}</g>`;
+ o+=`<g opacity="${eo((t-1.6)/.5)}" filter="url(#txt)"><text x="540" y="910" text-anchor="middle" font-family="LXGW WenKai TC" font-weight="700" font-size="30" fill="#c8553d">↑ 我是小土堡，歡迎來魔法書城！</text></g>`;
+ // kids
+ const k1=eo((t-.9)/.6),k2=eo((t-1.1)/.6);
+ o+=`<g transform="translate(${150-240*(1-k1)} ${680-Math.abs(Math.sin(t*3.4))*34}) scale(1.08)">${kid(t,{sh:'#f29e8e',hair:'#7a4b33',girl:1,ph:0,prop:wc('M70 40l20-30','#c8553d')+pen('M70 40l20-30',3)+wc(circ(92,8,5),'#ffd36e',1)})}</g>`;
+ o+=`<g transform="translate(${930+240*(1-k2)} ${680-Math.abs(Math.sin(t*3.4+1.6))*34}) scale(-1.08 1.08)">${kid(t,{sh:'#7cc9b3',hair:INK,girl:0,ph:1.3,prop:wc('M58 22h30v36h-30z','#ffd36e')+pen('M58 22h30v36h-30zM73 22v36',2.5)})}</g>`;
+ // flying books
+ [[0,'#e5534b'],[1,'#4C9F38'],[2,'#26BDE2']].forEach(([i,c])=>{if(t<1.4)return;const ph=((t*.12+i/3)%1);const bx=-100+ph*1280,by=470+i*28+Math.sin(ph*Math.PI*4+i)*30;o+=`<g transform="translate(${bx} ${by}) scale(.8) rotate(${Math.sin(t*4+i)*8})">${fbook(t+i,c)}</g>`});
+ // sparkles
+ [[110,470,18,'#ffd36e'],[980,450,22,'#f29e8e'],[80,880,14,'#b8a2e0'],[1000,880,16,'#7cc9b3'],[300,950,12,'#ffd36e'],[790,955,14,'#f29e8e']].forEach(([a,b,r,c],i)=>{const s=.6+.5*Math.abs(Math.sin(t*2.4+i));o+=`<g transform="translate(${a} ${b}) scale(${s}) rotate(${t*30+i*20})">${sparkle(0,0,r,c)}</g>`});
+ // hook line
+ const hk=eo((t-1.9)/.6);
+ o+=`<g opacity="${hk}" filter="url(#txt)"><text x="540" y="${405+15*(1-hk)}" text-anchor="middle" font-family="LXGW WenKai TC" font-weight="700" font-size="40" fill="${INK}">這個夏天，寫出你的第一本英文魔法書！</text></g>`;
+ // SDGs row
+ const sd=eo((t-2.3)/.8);
+ o+=`<g opacity="${sd}"><g filter="url(#txt)"><text x="540" y="985" text-anchor="middle" font-family="LXGW WenKai TC" font-weight="700" font-size="34" fill="${INK}">從 <tspan fill="#c8553d" font-family="Caveat Brush" font-size="44">SDGs</tspan> 永續小行動出發，創作你自己的故事</text></g>`;
+ SDG.forEach((c,i)=>{const p=back((t-2.4-i*.05)/.4);o+=`<g transform="translate(${236+i*38} ${1022+Math.sin(t*3+i*.5)*5}) scale(${cl(p,0,1.2)})">${wc(circ(0,0,14),c,.9)}</g>`});
+ o+='</g>';
+ // chips
+ chips.forEach((c,i)=>{const p=back((t-2.9-i*.3)/.5);const cx=i%2?790:290,cy=1088+Math.floor(i/2)*62;const r=Math.sin(t*2+i)*1.5;
+  o+=`<g transform="translate(${cx} ${cy}) rotate(${r}) scale(${cl(p,0,1.2)})" opacity="${cl(p*2)}">${wc('M-205 -26Q0 -34 205 -26Q212 0 205 26Q0 32 -205 26Q-212 0 -205 -26Z',c[1],.75)}${pen('M-205 -26Q0 -34 205 -26Q212 0 205 26Q0 32 -205 26Q-212 0 -205 -26Z',2)}<g filter="url(#txt)"><text x="0" y="11" text-anchor="middle" font-family="LXGW WenKai TC" font-weight="700" font-size="32" fill="${INK}">${c[0]}</text></g></g>`});
+ // bottom info
+ const bb=eo((t-3.9)/.7);
+ o+=`<g opacity="${bb}" filter="url(#txt)" transform="translate(0 ${30*(1-bb)})"><text x="540" y="1250" text-anchor="middle" font-family="LXGW WenKai TC" font-weight="700" font-size="38" fill="#fffaf0" stroke="#8a3a24" stroke-width="5" paint-order="stroke">7 月・15 天下午課程・招收 20 位小作家</text><text x="540" y="1306" text-anchor="middle" font-family="LXGW WenKai TC" font-weight="700" font-size="30" fill="${INK}">報名請洽 土城國小教務處</text></g>`;
+ // stamp
+ const cb=back((t-4.4)/.6),pulse=1+.05*Math.sin(t*5);
+ o+=`<g transform="translate(968 1276) scale(.7) rotate(${12+Math.sin(t*3)*4}) scale(${cl(cb,0,1.2)*pulse})">${wc(circ(0,0,84),'#ffd36e',.95)}<circle r="72" fill="none" stroke="#c8553d" stroke-width="3" stroke-dasharray="8 7" filter="url(#pen)" transform="rotate(${t*25})"/><g filter="url(#txt)"><text y="-6" text-anchor="middle" font-family="LXGW WenKai TC" font-weight="700" font-size="30" fill="#c8553d">快來接下</text><text y="32" text-anchor="middle" font-family="LXGW WenKai TC" font-weight="700" font-size="30" fill="#c8553d">神祕任務！</text></g></g>`;
+ // paper grain on top
+ o+=`<rect width="1080" height="1350" filter="url(#paper)" style="mix-blend-mode:multiply"/>`;
+ S.innerHTML=o;
+};
+draw(6);
+</script></body></html>
