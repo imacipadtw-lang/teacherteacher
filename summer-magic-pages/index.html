@@ -87,6 +87,11 @@ td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .todo{list-style:none;padding:0;margin:0}
 .todo li{padding:12px 0;border-bottom:1px solid var(--line)}
 .todo b{display:block}
+.sdg{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));gap:10px}
+.sdg div{background:var(--c);color:#fff;border-radius:12px;padding:12px 14px;min-height:96px}
+.sdg b{font:800 26px/1 "Baloo 2",sans-serif;margin-right:6px}
+.sdg strong{font-size:16px}
+.sdg p{margin:6px 0 0;font-size:14px;opacity:.95}
 footer{background:var(--cov);color:#fff;font-size:14px}
 label{display:flex;flex-direction:column;gap:4px;font-size:14px;font-weight:700;color:var(--mut)}
 input,select{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:2px solid var(--line);border-radius:10px;padding:8px 10px;min-height:44px;width:100%}
@@ -132,6 +137,7 @@ input:focus-visible,select:focus-visible{outline:3px solid var(--sun);outline-of
   <a href="#schedule" style="--c:var(--tl)">60節排課表</a>
   <a href="#team" style="--c:var(--cb)">老師分工</a>
   <a href="#hours" style="--c:var(--co)">節數統計</a>
+  <a href="#sdgs" style="--c:var(--co)">SDGs 主題延伸</a>
   <a href="#materials" style="--c:var(--tl)">材料清單</a>
   <a href="#todo" style="--c:var(--sun)">待辦與提醒</a>
 </div></nav>
@@ -209,6 +215,32 @@ input:focus-visible,select:focus-visible{outline:3px solid var(--sun);outline-of
     <tbody id="stat"></tbody>
   </table></div>
   <div class="legend"><span><i style="background:var(--cb)"></i>主教</span><span><i style="background:var(--sun)"></i>助教</span></div>
+</section>
+
+<section id="sdgs">
+  <h3>SDGs 17 項目標：給孩子的靈感，不是指定題目</h3>
+  <p class="lead">計畫書以 SDGs 17 項目標為課程架構。實際上課時，題目由學生自己選，老師可以參考下面的目標做主題延伸。</p>
+  <div class="grid2" style="margin-bottom:22px">
+    <div class="box">
+      <h4>上課時怎麼用</h4>
+      <ol>
+        <li>第 1 天用遊戲認識 17 項目標，例如看圖示猜目標、顏色配對。</li>
+        <li>學生自由選擇自己有感覺的主題寫故事，不用湊齊 17 項，也不用每頁對應一個目標。</li>
+        <li>故事裡只要有一個「讓世界變更好」的小行動就好。</li>
+        <li>故事完成後，再帶學生找出故事和哪些目標有關，一個故事可以對應好幾個目標。</li>
+      </ol>
+    </div>
+    <div class="box">
+      <h4>各課程可以這樣延伸（參考用）</h4>
+      <ol>
+        <li>英語故事：用生活中的永續小行動造句，例如 I turn off the lights.</li>
+        <li>美術：用該目標的代表色當插圖主色。</li>
+        <li>程式設計：做成永續小遊戲，例如垃圾分類、找出浪費水的地方。</li>
+        <li>成果報告：附「作品與 SDGs 對應表」。</li>
+      </ol>
+    </div>
+  </div>
+  <div class="sdg" id="sdg"></div>
 </section>
 
 <section id="materials">
@@ -305,6 +337,7 @@ const P=[
  ['done','營隊名稱與介紹文字','Magic Pages 土城魔法書城，計畫書版與招生版各一份'],
  ['done','60節排課與助教分配','每節1主教2助教，三位老師各56節'],
  ['doing','徵詢老師意見','請在右邊回覆四個問題'],
+ ['done','SDGs 課程架構','以 17 項目標為架構，學生自選題目、事後對應，老師參考做主題延伸'],
  ['doing','材料需求清單','請到「材料清單」書籤填寫自己課程要用的材料（以20人計）'],
  ['wait','全班一本或分組各一本','待老師討論決定'],
  ['wait','招生年級與營隊日期','待確認'],
@@ -315,6 +348,9 @@ const L={done:'已定案',doing:'進行中',wait:'待確認'};
 document.getElementById('prog').innerHTML=P.map(p=>`<li><span class="st ${p[0]}">${L[p[0]]}</span><div><b>${p[1]}</b><small>${p[2]}</small></div></li>`).join('');
 
 document.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(document.getElementById(b.dataset.copy).textContent);b.textContent='已複製'}catch(e){b.textContent='請手動選取文字'}setTimeout(()=>b.textContent='複製文字',1800)}));
+
+const G=[['#E5243B','終結貧窮','分享、存錢'],['#DDA63A','消除飢餓','不浪費食物'],['#4C9F38','健康與福祉','洗手、運動、關心朋友'],['#C5192D','優質教育','大家都能讀書'],['#FF3A21','性別平權','男生女生都可以'],['#26BDE2','淨水及衛生','節約用水'],['#FCC30B','可負擔的潔淨能源','隨手關燈'],['#A21942','合適的工作及經濟成長','認識社區裡的工作'],['#FD6925','工業化、創新及基礎建設','發明與創造'],['#DD1367','減少不平等','接納不同的人'],['#FD9D24','永續城鄉','愛護我們的土城'],['#BF8B2E','責任消費及生產','回收、少用塑膠'],['#3F7E44','氣候行動','走路、騎腳踏車'],['#0A97D9','保育海洋生態','保護海洋動物'],['#56C02B','保育陸域生態','種樹、愛護動物'],['#00689D','和平、正義及健全制度','好好溝通、會道歉'],['#19486A','多元夥伴關係','一起合作']];
+document.getElementById('sdg').innerHTML=G.map((g,i)=>`<div style="--c:${g[0]}"><b>${i+1}</b><strong>${g[1]}</strong><p>${g[2]}</p></div>`).join('');
 
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const $=id=>document.getElementById(id);
@@ -356,7 +392,7 @@ renderM();
  db.collection('materials').orderBy('at').onSnapshot(s=>{if(!s.metadata.fromCache){loaded=true;clearTimeout(timer);$('m-status').textContent='四位老師填的內容都會即時同步。'}items=s.docs.map(d=>({id:d.id,...d.data()}));renderM()},()=>{clearTimeout(timer);$('m-status').textContent='共用清單連線中斷，請重新開啟網頁。'});
 })();
 
-const ids=['overview','name','schedule','team','hours','materials','todo'];
+const ids=['overview','name','schedule','team','hours','sdgs','materials','todo'];
 const show=()=>{const h=location.hash.slice(1);const id=ids.includes(h)?h:'overview';ids.forEach(x=>document.getElementById(x).classList.toggle('on',x===id));document.querySelectorAll('#tabs a').forEach(a=>a.getAttribute('href')==='#'+id?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'))};
 window.addEventListener('hashchange',show);show();
 
