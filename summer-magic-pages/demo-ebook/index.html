@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>魔法書 示範電子書</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE gentle fairy-tale picture book for 9-year-olds, also a script template for teachers
+   IDEA a real storybook: one spread per screen, pages that lose and regain their colours
+   PICTURE each page's illustration fills the top of the page; tapping Magic brings back colour
+   COLOUR blush and cream paper, butter, mint, lilac, coral; SDG colours only on the chips
+   TYPE Fredoka for English story text, Noto Sans TC for Chinese
+   LAYOUT tabs (book / script) over a centred book; picture over text; phone keeps the same order */
+:root{color-scheme:light dark;--bg:light-dark(#fff6f3,#1e1519);--paper:light-dark(#fffdfb,#2a1f24);--ink:light-dark(#3d2c35,#fbeef2);--mut:light-dark(#7a6470,#c9b3bd);--line:light-dark(#f1dbe0,#47323c);--acc:light-dark(#b5476a,#f3a6bd);--rose:#f8cfd3;--sun:#ffd36e;--mint:#7cc9b3;--lil:#b8a2e0;--co:#f29e8e}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.6 "Noto Sans TC",system-ui,sans-serif;overflow-x:clip}
+.top{max-width:1000px;margin:0 auto;padding:20px 16px 8px;display:flex;flex-wrap:wrap;gap:12px;align-items:end;justify-content:space-between}
+h1{font:700 clamp(28px,4vw,40px)/1.1 Fredoka,"Noto Sans TC",sans-serif;margin:0;letter-spacing:-.01em}
+.sub{color:var(--mut);margin:4px 0 0;font-size:15px}
+.tabs{display:flex;gap:8px}
+.tab,.btn{font:inherit;font-weight:700;font-size:15px;min-height:44px;padding:8px 18px;border-radius:99px;border:2px solid var(--acc);background:transparent;color:var(--ink);cursor:pointer}
+.tab[aria-pressed=true],.btn.solid{background:var(--acc);color:var(--paper)}
+.tab:focus-visible,.btn:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.wrap{max-width:1000px;margin:0 auto;padding:8px 16px 40px}
+.book{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;gap:16px;padding:6px 2px 14px;scrollbar-width:none}
+.book::-webkit-scrollbar{display:none}
+.page{flex:0 0 100%;scroll-snap-align:center;background:var(--paper);border-radius:24px;border:1px solid var(--line);box-shadow:0 10px 0 -4px var(--rose);overflow:hidden;display:grid;grid-template-rows:auto auto}
+.pic{position:relative;aspect-ratio:16/9;background:#fdf1ea}
+.pic svg{position:absolute;inset:0;width:100%;height:100%;transition:filter 1.2s ease}
+.page.gray .pic svg{filter:grayscale(1) brightness(1.05) contrast(.9)}
+.pic .no{position:absolute;left:14px;top:12px;background:var(--paper);color:var(--ink);font:600 14px Fredoka,sans-serif;padding:2px 12px;border-radius:99px}
+.txt{padding:18px 22px 20px;display:grid;gap:8px}
+.en{font:600 clamp(22px,3.2vw,30px)/1.3 Fredoka,sans-serif;margin:0}
+.zh{color:var(--mut);margin:0;font-size:16px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{color:#fff;font-size:13px;font-weight:700;padding:3px 10px;border-radius:8px;white-space:nowrap}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+.btn svg{width:18px;height:18px;vertical-align:-3px;margin-right:6px;fill:currentColor}
+.nav{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:6px}
+.dots{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.dots button{width:12px;height:12px;border-radius:50%;border:0;background:var(--line);padding:0;cursor:pointer}
+.dots button[aria-current=true]{background:var(--acc);width:26px;border-radius:6px}
+.note{color:var(--mut);font-size:14px;text-align:center;margin:14px 0 0}
+#script{display:none}
+.scroll{overflow-x:auto;background:var(--paper);border-radius:18px;border:1px solid var(--line)}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{padding:12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:color-mix(in srgb,var(--rose) 45%,var(--paper));font-size:14px;white-space:nowrap}
+td.e{font-family:Fredoka,sans-serif;font-size:16px;min-width:200px}
+.tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px;margin-top:16px}
+.tips div{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px 18px}
+.tips h3{margin:0 0 6px;font-size:17px}
+.tips p{margin:0;color:var(--mut);font-size:15px}
+.spark{position:absolute;inset:0;pointer-events:none}
+.spark i{position:absolute;width:10px;height:10px;background:var(--sun);border-radius:2px;transform:rotate(45deg);animation:pop .9s ease-out forwards}
+@keyframes pop{from{opacity:1;transform:rotate(45deg) scale(.4)}to{opacity:0;transform:rotate(45deg) scale(1.6) translateY(-30px)}}
+@media(prefers-reduced-motion:reduce){.pic svg{transition:none}.spark i{animation:none;opacity:0}.book{scroll-behavior:auto}}
+@media(max-width:600px){.txt{padding:14px 16px 16px}table{font-size:14px}th,td{padding:8px}}
+</style>
+</head>
+<body>
+<div class="top">
+  <div>
+    <h1>The Magic Pages of Tucheng</h1>
+    <p class="sub">土城的魔法書・示範電子書（教師參考用）</p>
+  </div>
+  <div class="tabs" role="group" aria-label="切換">
+    <button class="tab" id="t-book" aria-pressed="true">電子書</button>
+    <button class="tab" id="t-script" aria-pressed="false">腳本</button>
+  </div>
+</div>
+
+<main class="wrap">
+  <section id="bookview">
+    <div class="book" id="book" tabindex="0" aria-label="電子書頁面"></div>
+    <div class="nav">
+      <button class="btn" id="prev">上一頁</button>
+      <div class="dots" id="dots"></div>
+      <button class="btn" id="next">下一頁</button>
+    </div>
+    <p class="note">灰色的頁面按「Magic!」就會恢復顏色。按「聽朗讀」可以聽每一頁的英文。</p>
+  </section>
+
+  <section id="script">
+    <div class="scroll"><table>
+      <thead><tr><th>頁</th><th>英文</th><th>中文</th><th>畫面說明</th><th>SDGs</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table></div>
+    <div class="tips">
+      <div><h3>故事結構</h3><p>開頭找到魔法書，中間每頁解決一個小問題、找回一種顏色，結尾大家一起合作。學生可以換成自己的角色和地點。</p></div>
+      <div><h3>英文句子</h3><p>每頁 1 到 2 句短句，用學生學過的句型，例如 We ___. / I ___. 方便朗讀和錄音。</p></div>
+      <div><h3>插圖</h3><p>先畫灰色版本，再畫彩色版本，就能做出「找回顏色」的效果。</p></div>
+      <div><h3>SDGs 對應</h3><p>故事寫完再對應，一頁可以對應好幾個目標，不用湊齊 17 項。</p></div>
+    </div>
+  </section>
+</main>
+
+<script>
+{
+const SDG={2:['#DDA63A','2 消除飢餓'],3:['#4C9F38','3 健康與福祉'],6:['#26BDE2','6 淨水及衛生'],7:['#FCC30B','7 潔淨能源'],10:['#DD1367','10 減少不平等'],11:['#FD9D24','11 永續城鄉'],12:['#BF8B2E','12 責任消費及生產'],13:['#3F7E44','13 氣候行動'],14:['#0A97D9','14 保育海洋生態'],15:['#56C02B','15 保育陸域生態'],17:['#19486A','17 多元夥伴關係']};
+const P=[
+ {en:'The Magic Pages of Tucheng',zh:'土城的魔法書',d:'封面：一本發光的魔法書，四周有星星。',s:[],g:0,sc:'cover'},
+ {en:'Mia and Leo find an old book in the library.',zh:'Mia 和 Leo 在圖書館找到一本舊書。',d:'圖書館書架，兩個孩子發現一本發光的書。',s:[],g:0,sc:'library'},
+ {en:'The book opens. "Help! My pages lost their colors!"',zh:'書打開了：「救命啊！我的頁面失去了顏色！」',d:'打開的書，頁面是灰色的，書在求救。',s:[],g:0,sc:'help'},
+ {en:'The river is gray and dirty. We pick up the trash. The river is blue again!',zh:'河水又灰又髒。我們把垃圾撿起來，河水又變藍了！',d:'河邊撿垃圾，河水從灰色變回藍色。',s:[6,14],g:1,sc:'river'},
+ {en:'The lights are on, but no one is home. Click! We turn off the lights.',zh:'燈開著，可是沒有人在家。喀！我們把燈關掉。',d:'房子的窗戶亮著燈，孩子按下開關。',s:[7],g:1,sc:'lights'},
+ {en:'There is food left on the plate. We finish our lunch. Yum!',zh:'盤子裡還有剩下的食物。我們把午餐吃完。好吃！',d:'餐桌上的午餐，孩子吃得很開心。',s:[2,12],g:1,sc:'lunch'},
+ {en:'We plant a little tree. The birds come back.',zh:'我們種下一棵小樹，鳥兒都回來了。',d:'孩子種樹，小鳥飛回來。',s:[15,13],g:1,sc:'tree'},
+ {en:'Tom is sad. "Are you okay? Let\'s play together!"',zh:'Tom 很難過。「你還好嗎？我們一起玩吧！」',d:'操場上一個難過的孩子，Mia 伸出手邀請他。',s:[3,10],g:1,sc:'friend'},
+ {en:'We put the bottles in the recycling bin.',zh:'我們把瓶子放進回收桶。',d:'回收桶和寶特瓶。',s:[12],g:1,sc:'recycle'},
+ {en:'We walk to school. The air is fresh and clean.',zh:'我們走路上學，空氣又清新又乾淨。',d:'孩子走在通往學校的小路上，太陽和白雲。',s:[13,11],g:1,sc:'walk'},
+ {en:'We work together. The book is full of colors!',zh:'我們一起合作，書裡充滿了顏色！',d:'大家手牽手，魔法書冒出彩虹。',s:[17],g:1,sc:'together'},
+ {en:'Thank you! Now you are Magic Page Makers. What can you do?',zh:'謝謝你們！現在你們都是魔法書頁小作家了。你可以做什麼呢？',d:'徽章「Magic Page Makers」，留白讓讀者想一想自己的行動。',s:[],g:0,sc:'end'}
+];
+
+const kid=(x,y,sh,hair,girl,arm,sad)=>`<g transform="translate(${x} ${y})"><ellipse cx="0" cy="62" rx="20" ry="5" fill="#000" opacity=".12"/><rect x="-14" y="18" width="28" height="36" rx="12" fill="${sh}"/><rect x="-11" y="48" width="8" height="14" rx="4" fill="#5b4a5a"/><rect x="3" y="48" width="8" height="14" rx="4" fill="#5b4a5a"/>${arm?`<rect x="10" y="${arm==='up'?2:22}" width="7" height="22" rx="3.5" fill="${sh}" transform="rotate(${arm==='up'?-30:-60} 13 24)"/>`:''}<circle cx="0" cy="4" r="15" fill="#f6d2b8"/><path d="M-15 2a15 15 0 0 1 30 0c-6-6-24-6-30 0z" fill="${hair}"/>${girl?`<circle cx="-16" cy="6" r="5" fill="${hair}"/><circle cx="16" cy="6" r="5" fill="${hair}"/>`:''}<circle cx="-5" cy="5" r="1.8" fill="#3d2c35"/><circle cx="5" cy="5" r="1.8" fill="#3d2c35"/><path d="${sad?'M-4 13q4 -3 8 0':'M-4 11q4 3 8 0'}" stroke="#3d2c35" stroke-width="1.6" fill="none" stroke-linecap="round"/><circle cx="-9" cy="10" r="2.5" fill="#f29e8e" opacity=".6"/><circle cx="9" cy="10" r="2.5" fill="#f29e8e" opacity=".6"/></g>`;
+const mia=(x,y,a)=>kid(x,y,'#f29e8e','#6b4a3a',1,a), leo=(x,y,a)=>kid(x,y,'#7cc9b3','#3d2c35',0,a);
+const star=(x,y,r,c)=>`<path d="M${x} ${y-r}L${x+r*.3} ${y-r*.3}L${x+r} ${y}L${x+r*.3} ${y+r*.3}L${x} ${y+r}L${x-r*.3} ${y+r*.3}L${x-r} ${y}L${x-r*.3} ${y-r*.3}Z" fill="${c||'#ffd36e'}"/>`;
+const ground=(c)=>`<rect x="0" y="200" width="400" height="60" fill="${c||'#bfe3b4'}"/><ellipse cx="80" cy="205" rx="140" ry="22" fill="#a8d89c"/>`;
+const sky=(c)=>`<rect width="400" height="225" fill="${c||'#dff1fb'}"/>`;
+const cloud=(x,y)=>`<g fill="#fff"><ellipse cx="${x}" cy="${y}" rx="26" ry="12"/><ellipse cx="${x+18}" cy="${y-8}" rx="16" ry="12"/><ellipse cx="${x-14}" cy="${y-4}" rx="12" ry="9"/></g>`;
+const openBook=(x,y,w,fill1,fill2)=>`<g transform="translate(${x} ${y})"><path d="M0 8Q${-w*.25} -6 ${-w*.5} 6V${w*.36}Q${-w*.25} ${w*.26} 0 ${w*.4}Z" fill="${fill1}" stroke="#e7a3ad" stroke-width="3"/><path d="M0 8Q${w*.25} -6 ${w*.5} 6V${w*.36}Q${w*.25} ${w*.26} 0 ${w*.4}Z" fill="${fill2}" stroke="#e7a3ad" stroke-width="3"/></g>`;
+const S={
+ cover:()=>`<rect width="400" height="225" fill="#f8cfd3"/>${[[40,40,8],[350,50,10],[70,180,6],[330,170,8],[200,22,6],[120,90,5],[290,110,5]].map(s=>star(...s)).join('')}<ellipse cx="200" cy="205" rx="110" ry="12" fill="#000" opacity=".1"/>${openBook(200,70,220,'#fffdfb','#fff4f0')}<circle cx="200" cy="66" r="40" fill="#ffd36e" opacity=".35"/>${star(200,62,16)}`,
+ library:()=>`<rect width="400" height="225" fill="#fbe7dc"/>${[20,140,260].map((x,i)=>`<rect x="${x}" y="30" width="110" height="150" rx="6" fill="#c99a7a"/>${[0,1,2].map(r=>`<rect x="${x+6}" y="${40+r*46}" width="98" height="40" fill="#a97c5f"/>${[0,1,2,3,4,5].map(b=>`<rect x="${x+10+b*15}" y="${46+r*46+(b%2)*4}" width="12" height="${34-(b%2)*4}" rx="2" fill="${['#f29e8e','#7cc9b3','#b8a2e0','#ffd36e','#f8cfd3','#9fd3e8'][(b+r+i)%6]}"/>`).join('')}`).join('')}`).join('')}<rect x="0" y="180" width="400" height="45" fill="#e7c7b4"/>${mia(150,140,'up')}${leo(250,140)}<circle cx="200" cy="120" r="22" fill="#ffd36e" opacity=".5"/><rect x="186" y="108" width="28" height="22" rx="3" fill="#b5476a"/>${star(222,100,6)}`,
+ help:()=>`<rect width="400" height="225" fill="#efe6f6"/>${openBook(200,40,250,'#d9d9d9','#cfcfcf')}<g fill="#3d2c35"><circle cx="160" cy="100" r="5"/><circle cx="240" cy="100" r="5"/></g><path d="M175 135q25-14 50 0" stroke="#3d2c35" stroke-width="4" fill="none" stroke-linecap="round"/><rect x="270" y="20" width="96" height="40" rx="14" fill="#fff"/><path d="M285 58l-8 14 20-12z" fill="#fff"/><text x="318" y="47" text-anchor="middle" font-family="Fredoka,sans-serif" font-size="20" font-weight="700" fill="#b5476a">Help!</text>`,
+ river:()=>`${sky()}${cloud(80,40)}${cloud(300,30)}<path d="M0 120Q100 80 200 110T400 100V225H0Z" fill="#a8d89c"/><path d="M0 170Q120 140 220 165T400 150V200Q280 210 200 200T0 215Z" fill="#5ab8e6"/>${[[90,180],[160,190],[300,172]].map(([x,y])=>`<rect x="${x}" y="${y}" width="12" height="8" rx="2" fill="#9b8b8b"/>`).join('')}${mia(110,92,'down')}${leo(300,98)}<rect x="318" y="128" width="20" height="26" rx="4" fill="#f8cfd3"/>`,
+ lights:()=>`<rect width="400" height="225" fill="#3b3557"/>${star(40,30,4,'#fff')}${star(360,40,5,'#fff')}${star(300,20,3,'#fff')}<circle cx="70" cy="50" r="22" fill="#fff4c7"/>${ground('#5d7a63')}<path d="M110 200V110L200 50L290 110V200Z" fill="#f2c9a8"/><path d="M95 115L200 40L305 115" stroke="#c96b5a" stroke-width="14" fill="none" stroke-linejoin="round"/>${[[135,120],[225,120],[135,160]].map(([x,y])=>`<rect x="${x}" y="${y}" width="40" height="30" rx="4" fill="#ffd36e"/>`).join('')}<rect x="225" y="160" width="34" height="40" rx="4" fill="#a97c5f"/>${leo(340,138,'up')}<rect x="352" y="118" width="14" height="22" rx="3" fill="#fff"/><circle cx="359" cy="129" r="3" fill="#b5476a"/>`,
+ lunch:()=>`<rect width="400" height="225" fill="#fff1d6"/><rect x="40" y="120" width="320" height="16" rx="6" fill="#c99a7a"/><rect x="60" y="136" width="12" height="70" fill="#a97c5f"/><rect x="328" y="136" width="12" height="70" fill="#a97c5f"/>${mia(130,58)}${leo(270,58)}<ellipse cx="200" cy="114" rx="56" ry="12" fill="#fff"/><ellipse cx="185" cy="108" rx="20" ry="8" fill="#ffd36e"/><circle cx="212" cy="106" r="8" fill="#4C9F38"/><circle cx="224" cy="110" r="6" fill="#f29e8e"/><path d="M150 40q8-12 16 0" stroke="#b5476a" stroke-width="3" fill="none"/><text x="200" y="40" text-anchor="middle" font-family="Fredoka,sans-serif" font-size="22" font-weight="700" fill="#b5476a">Yum!</text>`,
+ tree:()=>`${sky('#e4f4fb')}${cloud(320,40)}${ground()}<rect x="194" y="130" width="12" height="70" rx="4" fill="#a97c5f"/><circle cx="200" cy="115" r="38" fill="#56C02B"/><circle cx="178" cy="128" r="22" fill="#4C9F38"/><circle cx="224" cy="126" r="22" fill="#4C9F38"/>${[[90,50],[120,70],[290,80]].map(([x,y])=>`<path d="M${x-10} ${y}q5-8 10 0q5-8 10 0" stroke="#3d2c35" stroke-width="2.5" fill="none"/>`).join('')}${mia(110,140)}${leo(300,140,'down')}<rect x="312" y="150" width="4" height="40" fill="#8a6a55" transform="rotate(20 314 170)"/>`,
+ friend:()=>`${sky('#fde7ef')}${cloud(70,40)}${ground('#f3d9b8')}<rect x="250" y="120" width="110" height="10" rx="4" fill="#c99a7a"/><rect x="262" y="130" width="8" height="50" fill="#a97c5f"/><rect x="340" y="130" width="8" height="50" fill="#a97c5f"/>${kid(305,92,'#b8a2e0','#8a6a55',0,null,1)}${mia(190,140,'down')}${leo(110,140)}`,
+ recycle:()=>`<rect width="400" height="225" fill="#e8f4ee"/>${ground('#cfe6d6')}<rect x="160" y="100" width="90" height="100" rx="10" fill="#3f7e44"/><rect x="152" y="90" width="106" height="16" rx="6" fill="#56C02B"/><path d="M190 150l12-20 12 20zM190 150h24" stroke="#fff" stroke-width="4" fill="none" stroke-linejoin="round"/>${[[205,60],[230,72]].map(([x,y])=>`<rect x="${x}" y="${y}" width="14" height="30" rx="5" fill="#9fd3e8"/><rect x="${x+4}" y="${y-6}" width="6" height="7" fill="#26BDE2"/>`).join('')}${mia(100,140,'up')}${leo(320,140)}`,
+ walk:()=>`${sky()}<circle cx="340" cy="45" r="24" fill="#ffd36e"/>${cloud(90,40)}${ground()}<path d="M120 225Q200 180 260 150" stroke="#f3d9b8" stroke-width="36" fill="none" stroke-linecap="round"/><rect x="250" y="80" width="120" height="80" rx="6" fill="#f8cfd3"/><path d="M240 84L310 46L380 84Z" fill="#c96b5a"/><rect x="298" y="120" width="24" height="40" fill="#a97c5f"/>${[[262,96],[340,96]].map(([x,y])=>`<rect x="${x}" y="${y}" width="22" height="18" fill="#fff"/>`).join('')}${mia(140,142)}${leo(190,128)}`,
+ together:()=>`<rect width="400" height="225" fill="#fdf1ea"/>${['#E5243B','#FD9D24','#FCC30B','#56C02B','#26BDE2','#00689D','#b8a2e0'].map((c,i)=>`<path d="M60 150A140 140 0 0 1 340 150" stroke="${c}" stroke-width="10" fill="none" transform="translate(0 ${i*10}) scale(1 ${1-i*.03})" opacity=".9"/>`).join('')}${openBook(200,140,140,'#fffdfb','#fff4f0')}${mia(90,140,'up')}${leo(310,140,'up')}${kid(150,150,'#b8a2e0','#8a6a55',0,'up')}${kid(250,150,'#ffd36e','#3d2c35',1,'up')}${[[60,40],[340,40],[200,20]].map(s=>star(...s,8)).join('')}`,
+ end:()=>`<rect width="400" height="225" fill="#f8cfd3"/><circle cx="200" cy="105" r="70" fill="#ffd36e"/><circle cx="200" cy="105" r="56" fill="#fff4c7"/>${star(200,92,22,'#f29e8e')}<text x="200" y="140" text-anchor="middle" font-family="Fredoka,sans-serif" font-size="15" font-weight="700" fill="#b5476a">Magic Page Makers</text><path d="M160 172l-14 40 22-10 10 18 14-46zM240 172l14 40-22-10-10 18-14-46z" fill="#b5476a"/>${[[50,40],[350,60],[70,190],[340,190]].map(s=>star(...s,7)).join('')}`
+};
+const spk='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4zM16 8a5 5 0 0 1 0 8l-1.4-1.4a3 3 0 0 0 0-5.2zM18.5 5.5a8.5 8.5 0 0 1 0 13l-1.4-1.4a6.5 6.5 0 0 0 0-10.2z"/></svg>';
+const book=document.getElementById('book');
+book.innerHTML=P.map((p,i)=>`<article class="page${p.g?' gray':''}" id="pg${i}" aria-label="第 ${i} 頁"><div class="pic"><svg viewBox="0 0 400 225" preserveAspectRatio="xMidYMid slice" role="img" aria-label="${p.d}">${S[p.sc]()}</svg><span class="no">${i?'Page '+i:'Cover'}</span><div class="spark"></div></div><div class="txt"><p class="en">${p.en}</p><p class="zh">${p.zh}</p><div class="row"><div class="chips">${p.s.map(n=>`<span class="chip" style="background:${SDG[n][0]}">${SDG[n][1]}</span>`).join('')}</div><div class="acts"><button class="btn" data-say="${i}">${spk}聽朗讀</button>${p.g?`<button class="btn solid" data-magic="${i}">Magic!</button>`:''}</div></div></div></article>`).join('');
+const dots=document.getElementById('dots');
+dots.innerHTML=P.map((_,i)=>`<button aria-label="到第 ${i} 頁" data-go="${i}"></button>`).join('');
+let cur=0,audio=null;
+const go=i=>{i=Math.max(0,Math.min(P.length-1,i));document.getElementById('pg'+i).scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'nearest',inline:'center'})};
+const mark=()=>{dots.querySelectorAll('button').forEach((b,i)=>b.setAttribute('aria-current',i===cur))};
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting&&e.intersectionRatio>.6){cur=+e.target.id.slice(2);mark()}})},{root:book,threshold:[.6]});
+book.querySelectorAll('.page').forEach(p=>io.observe(p));mark();
+document.getElementById('prev').onclick=()=>go(cur-1);
+document.getElementById('next').onclick=()=>go(cur+1);
+dots.onclick=e=>{const b=e.target.closest('[data-go]');if(b)go(+b.dataset.go)};
+book.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){e.preventDefault();go(cur+1)}if(e.key==='ArrowLeft'){e.preventDefault();go(cur-1)}});
+book.addEventListener('click',e=>{
+ const s=e.target.closest('[data-say]');
+ if(s){try{if(audio)audio.pause();audio=new Audio('audio/p'+String(s.dataset.say).padStart(2,'0')+'.mp3');audio.play().catch(()=>{})}catch(err){}}
+ const m=e.target.closest('[data-magic]');
+ if(m){const pg=document.getElementById('pg'+m.dataset.magic);const on=pg.classList.toggle('gray');m.textContent=on?'Magic!':'變回灰色';
+  if(!on){const sp=pg.querySelector('.spark');sp.innerHTML=Array.from({length:14},(_,k)=>`<i style="left:${8+((k*37)%84)}%;top:${15+((k*53)%70)}%;animation-delay:${k*40}ms"></i>`).join('');setTimeout(()=>sp.innerHTML='',1400)}}
+});
+document.getElementById('rows').innerHTML=P.map((p,i)=>`<tr><td>${i?i:'封面'}</td><td class="e">${p.en}</td><td>${p.zh}</td><td>${p.d}</td><td>${p.s.map(n=>`<span class="chip" style="background:${SDG[n][0]}">${SDG[n][1]}</span>`).join(' ')||'—'}</td></tr>`).join('');
+const tb=document.getElementById('t-book'),ts=document.getElementById('t-script');
+const view=v=>{document.getElementById('bookview').style.display=v==='book'?'':'none';document.getElementById('script').style.display=v==='script'?'block':'none';tb.setAttribute('aria-pressed',v==='book');ts.setAttribute('aria-pressed',v==='script')};
+const rh=x=>{try{history.replaceState(null,'',x)}catch(e){}};tb.onclick=()=>{view('book');rh('#book')};ts.onclick=()=>{view('script');rh('#script')};
+view(location.hash==='#script'?'script':'book');
+}
+</script>
+</body>
+</html>
