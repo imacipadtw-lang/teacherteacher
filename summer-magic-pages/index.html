@@ -8,25 +8,25 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-/* VOICE everyday team hub for four teachers, cheerful but orderly
+/* VOICE everyday team hub for four teachers, gentle fairy-tale
    IDEA a magic picture book: sections are ribbon bookmarks hanging from the cover
-   PICTURE an open book with lifting pages and stars on a cobalt cover band
-   COLOUR cobalt cover, white pages, coral + sun yellow + teal as teacher inks
+   PICTURE an open book with lifting pages and stars on a blush cover band
+   COLOUR blush-rose cover, warm white pages, coral, butter, mint and lilac as teacher inks
    TYPE Baloo 2 for Latin display, Noto Sans TC for everything Chinese
    LAYOUT cover band with book at right, bookmark tabs under it, one section at a time; phone stacks */
-:root{color-scheme:light dark;--bg:light-dark(#ffffff,#0d1024);--ink:light-dark(#151833,#eef0ff);--mut:light-dark(#5a5f80,#a7acd0);--cov:light-dark(#2b3fd6,#1a238a);--pg:light-dark(#f4f6ff,#161a3a);--line:light-dark(#dfe3f7,#2a2f5a);--co:#ff5a4e;--sun:#ffc93c;--tl:#14a39a;--cb:#4d63ff}
+:root{color-scheme:light dark;--bg:light-dark(#fffaf8,#1e1519);--ink:light-dark(#3d2c35,#fbeef2);--mut:light-dark(#7a6470,#c9b3bd);--cov:light-dark(#f8cfd3,#4a2e3b);--covink:light-dark(#3d2c35,#fff3f5);--pg:light-dark(#fdeff0,#2a1d23);--line:light-dark(#f1dbe0,#47323c);--acc:light-dark(#b5476a,#f3a6bd);--co:#f29e8e;--sun:#ffd36e;--tl:#7cc9b3;--cb:#b8a2e0}
 :root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
 *{box-sizing:border-box;min-width:0}
 html{scroll-padding-top:80px}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Noto Sans TC",system-ui,sans-serif;overflow-x:clip}
 .band{padding:clamp(24px,4vw,56px) max(5vw,16px)}
 .wrap{max-width:1240px;margin:0 auto}
-header{background:var(--cov);color:#fff}
+header{background:var(--cov);color:var(--covink)}
 .hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:24px;align-items:center;padding-bottom:8px}
 .hero h1{font:800 clamp(34px,5vw,52px)/1.05 "Baloo 2","Noto Sans TC",sans-serif;letter-spacing:-.02em;margin:0 0 6px;text-wrap:balance}
 .hero h2{font-weight:900;font-size:clamp(22px,3vw,30px);margin:0 0 10px;line-height:1.2}
 .hero p{margin:0;opacity:.92;max-width:34em}
-.lock{display:inline-block;margin-top:14px;background:#fff;color:var(--cov);font-weight:700;font-size:14px;padding:4px 12px;border-radius:99px}
+.lock{display:inline-block;margin-top:14px;background:var(--bg);color:var(--acc);font-weight:700;font-size:14px;padding:4px 12px;border-radius:99px}
 .fig{position:relative;min-height:230px}.fig>svg{position:absolute;inset:0;width:100%;height:100%}
 nav{position:sticky;top:0;z-index:5;background:var(--cov);padding:0 max(5vw,16px)}
 .tabs{max-width:1240px;margin:0 auto;display:flex;gap:8px;overflow-x:auto;padding-top:6px}
@@ -38,7 +38,7 @@ h3{font-size:clamp(26px,3.4vw,34px);line-height:1.15;margin:0 0 6px;letter-spaci
 .lead{color:var(--mut);margin:0 0 22px}
 .nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(9em,1fr));gap:12px;margin-bottom:26px}
 .nums div{background:var(--pg);border-radius:14px;padding:14px 16px}
-.nums b{display:block;font:800 clamp(30px,4vw,40px)/1 "Baloo 2",sans-serif;color:var(--cb)}
+.nums b{display:block;font:800 clamp(30px,4vw,40px)/1 "Baloo 2",sans-serif;color:var(--acc)}
 .grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px}
 .prog{list-style:none;margin:0;padding:0}
 .prog li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;padding:12px 0;border-bottom:1px solid var(--line)}
@@ -51,13 +51,13 @@ h3{font-size:clamp(26px,3.4vw,34px);line-height:1.15;margin:0 0 6px;letter-spaci
 .box h4{margin:0 0 8px;font-size:18px}
 .box ol{margin:0;padding-left:1.3em}
 .name{border-left:6px solid var(--co);padding:6px 0 6px 18px;margin-bottom:22px}
-.name .en{font:800 clamp(28px,4vw,40px)/1.1 "Baloo 2",sans-serif;color:var(--cb)}
+.name .en{font:800 clamp(28px,4vw,40px)/1.1 "Baloo 2",sans-serif;color:var(--acc)}
 .name .zh{font-weight:900;font-size:clamp(22px,3vw,28px)}
 .name .sub{color:var(--mut)}
 .copy{position:relative}
 .copy p{margin:0 0 12px}
-.btn{font:inherit;font-size:15px;font-weight:700;min-height:44px;padding:8px 16px;border-radius:10px;border:2px solid var(--cb);background:transparent;color:var(--ink);cursor:pointer}
-.btn[aria-pressed=true],.btn:hover{background:var(--cb);color:#fff}
+.btn{font:inherit;font-size:15px;font-weight:700;min-height:44px;padding:8px 16px;border-radius:99px;border:2px solid var(--acc);background:transparent;color:var(--ink);cursor:pointer}
+.btn[aria-pressed=true],.btn:hover{background:var(--acc);color:var(--bg)}
 .btn:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
 .filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
 .days{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:14px}
@@ -92,19 +92,19 @@ td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .sdg b{font:800 26px/1 "Baloo 2",sans-serif;margin-right:6px}
 .sdg strong{font-size:16px}
 .sdg p{margin:6px 0 0;font-size:14px;opacity:.95}
-footer{background:var(--cov);color:#fff;font-size:14px}
+footer{background:var(--cov);color:var(--covink);font-size:14px}
 label{display:flex;flex-direction:column;gap:4px;font-size:14px;font-weight:700;color:var(--mut)}
 input,select{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:2px solid var(--line);border-radius:10px;padding:8px 10px;min-height:44px;width:100%}
-input:focus-visible,select:focus-visible{outline:3px solid var(--sun);outline-offset:1px;border-color:var(--cb)}
+input:focus-visible,select:focus-visible{outline:3px solid var(--sun);outline-offset:1px;border-color:var(--acc)}
 .mset{display:flex;flex-wrap:wrap;gap:14px;align-items:end;margin-bottom:16px}
 .mset label{width:9em}
 .mtot{margin-left:auto;text-align:right}
 .mtot span{display:block;font-size:14px;color:var(--mut);font-weight:700}
-.mtot b{font:800 clamp(26px,3.4vw,34px)/1.1 "Baloo 2","Noto Sans TC",sans-serif;color:var(--cb);white-space:nowrap}
+.mtot b{font:800 clamp(26px,3.4vw,34px)/1.1 "Baloo 2","Noto Sans TC",sans-serif;color:var(--acc);white-space:nowrap}
 .mform{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:10px}
 .mform .w2{grid-column:span 2}
 .mbtns{grid-column:1/-1;display:flex;gap:10px;flex-wrap:wrap}
-.btn.solid{background:var(--cb);color:#fff}
+.btn.solid{background:var(--acc);color:var(--bg)}
 .mgrp{margin-top:22px}
 .mgrp h4{margin:0 0 6px;font-size:18px;display:flex;justify-content:space-between;gap:10px}
 .mgrp h4 span{color:var(--mut);font-size:15px;font-weight:500}
@@ -214,7 +214,7 @@ input:focus-visible,select:focus-visible{outline:3px solid var(--sun);outline-of
     <thead><tr><th>老師</th><th class="n">主教</th><th class="n">助教</th><th class="n">合計</th><th style="width:40%">分布</th></tr></thead>
     <tbody id="stat"></tbody>
   </table></div>
-  <div class="legend"><span><i style="background:var(--cb)"></i>主教</span><span><i style="background:var(--sun)"></i>助教</span></div>
+  <div class="legend"><span><i style="background:var(--acc)"></i>主教</span><span><i style="background:var(--sun)"></i>助教</span></div>
 </section>
 
 <section id="sdgs">
@@ -322,7 +322,7 @@ renderDays();
 const S={};T.forEach(n=>S[n]={m:0,a:0});
 D.flat().forEach(p=>{S[p[0]].m++;S[p[1]].a++;S[p[2]].a++});
 const max=Math.max(...T.map(n=>S[n].m+S[n].a));
-document.getElementById('stat').innerHTML=T.map(n=>{const s=S[n],t=s.m+s.a;return `<tr><td>${chip(n)}</td><td class="n">${s.m} 節</td><td class="n">${s.a?s.a+' 節':'—'}</td><td class="n"><b>${t} 節</b></td><td><div class="bar" style="width:${t/max*100}%"><span style="width:${s.m/t*100}%;background:var(--cb)"></span><span style="width:${s.a/t*100}%;background:var(--sun)"></span></div></td></tr>`}).join('')+`<tr><td><b>合計</b></td><td class="n"><b>${D.flat().length} 節</b></td><td class="n"><b>${D.flat().length*2} 節</b></td><td></td><td></td></tr>`;
+document.getElementById('stat').innerHTML=T.map(n=>{const s=S[n],t=s.m+s.a;return `<tr><td>${chip(n)}</td><td class="n">${s.m} 節</td><td class="n">${s.a?s.a+' 節':'—'}</td><td class="n"><b>${t} 節</b></td><td><div class="bar" style="width:${t/max*100}%"><span style="width:${s.m/t*100}%;background:var(--acc)"></span><span style="width:${s.a/t*100}%;background:var(--sun)"></span></div></td></tr>`}).join('')+`<tr><td><b>合計</b></td><td class="n"><b>${D.flat().length} 節</b></td><td class="n"><b>${D.flat().length*2} 節</b></td><td></td><td></td></tr>`;
 
 const R=[
  ['怡伶','英語故事與朗讀',['帶學生構思並撰寫英文故事','句子潤飾、生字與發音','朗讀練習與角色配音','主持成果展演的英文朗讀發表']],
@@ -398,14 +398,14 @@ window.addEventListener('hashchange',show);show();
 
 const s=document.getElementById('book');
 const draw=()=>{const W=s.clientWidth,H=s.clientHeight;if(!W||!H)return;const bw=Math.min(W*.9,H*1.7),bh=bw*.52,x=(W-bw)/2,y=(H-bh)/2+8,m=x+bw/2;
-let st='';for(let i=0;i<9;i++){const sx=x+((i*97)%100)/100*bw,sy=y-18+((i*53)%60)/60*(bh*.5)-bh*.25,r=3+(i%3)*2;st+=`<path d="M${sx} ${sy-r*2}L${sx+r*.6} ${sy-r*.6}L${sx+r*2} ${sy}L${sx+r*.6} ${sy+r*.6}L${sx} ${sy+r*2}L${sx-r*.6} ${sy+r*.6}L${sx-r*2} ${sy}L${sx-r*.6} ${sy-r*.6}Z" fill="${i%2?'#ffc93c':'#fff'}" opacity="${.6+(i%3)*.15}"/>`}
-s.innerHTML=`${st}<ellipse cx="${m}" cy="${y+bh+10}" rx="${bw*.46}" ry="10" fill="#000" opacity=".2"/>
-<path d="M${x} ${y+12}Q${m-bw*.22} ${y-6} ${m} ${y+14}V${y+bh}Q${m-bw*.22} ${y+bh-18} ${x} ${y+bh-4}Z" fill="#ff5a4e"/>
-<path d="M${x+bw} ${y+12}Q${m+bw*.22} ${y-6} ${m} ${y+14}V${y+bh}Q${m+bw*.22} ${y+bh-18} ${x+bw} ${y+bh-4}Z" fill="#ff5a4e"/>
+let st='';for(let i=0;i<9;i++){const sx=x+((i*97)%100)/100*bw,sy=y-18+((i*53)%60)/60*(bh*.5)-bh*.25,r=3+(i%3)*2;st+=`<path d="M${sx} ${sy-r*2}L${sx+r*.6} ${sy-r*.6}L${sx+r*2} ${sy}L${sx+r*.6} ${sy+r*.6}L${sx} ${sy+r*2}L${sx-r*.6} ${sy+r*.6}L${sx-r*2} ${sy}L${sx-r*.6} ${sy-r*.6}Z" fill="${i%2?'#ffd36e':'#fff'}" opacity="${.6+(i%3)*.15}"/>`}
+s.innerHTML=`${st}<ellipse cx="${m}" cy="${y+bh+10}" rx="${bw*.46}" ry="10" fill="#000" opacity=".12"/>
+<path d="M${x} ${y+12}Q${m-bw*.22} ${y-6} ${m} ${y+14}V${y+bh}Q${m-bw*.22} ${y+bh-18} ${x} ${y+bh-4}Z" fill="#f29e8e"/>
+<path d="M${x+bw} ${y+12}Q${m+bw*.22} ${y-6} ${m} ${y+14}V${y+bh}Q${m+bw*.22} ${y+bh-18} ${x+bw} ${y+bh-4}Z" fill="#f29e8e"/>
 <path d="M${x+8} ${y+4}Q${m-bw*.2} ${y-14} ${m} ${y+6}V${y+bh-8}Q${m-bw*.2} ${y+bh-26} ${x+8} ${y+bh-12}Z" fill="#fff"/>
-<path d="M${x+bw-8} ${y+4}Q${m+bw*.2} ${y-14} ${m} ${y+6}V${y+bh-8}Q${m+bw*.2} ${y+bh-26} ${x+bw-8} ${y+bh-12}Z" fill="#eef1ff"/>
-${[0,1,2,3].map(k=>`<rect x="${x+bw*.08}" y="${y+bh*(.22+k*.14)}" width="${bw*(.3-k*.04)}" height="6" rx="3" fill="#c9d0f5"/>`).join('')}
-<circle cx="${x+bw*.76}" cy="${y+bh*.38}" r="${bh*.14}" fill="#ffc93c"/><path d="M${x+bw*.6} ${y+bh*.78}L${x+bw*.7} ${y+bh*.55}L${x+bw*.8} ${y+bh*.72}L${x+bw*.86} ${y+bh*.62}L${x+bw*.92} ${y+bh*.78}Z" fill="#14a39a"/>
+<path d="M${x+bw-8} ${y+4}Q${m+bw*.2} ${y-14} ${m} ${y+6}V${y+bh-8}Q${m+bw*.2} ${y+bh-26} ${x+bw-8} ${y+bh-12}Z" fill="#fff4f0"/>
+${[0,1,2,3].map(k=>`<rect x="${x+bw*.08}" y="${y+bh*(.22+k*.14)}" width="${bw*(.3-k*.04)}" height="6" rx="3" fill="#f2cfd6"/>`).join('')}
+<circle cx="${x+bw*.76}" cy="${y+bh*.38}" r="${bh*.14}" fill="#ffd36e"/><path d="M${x+bw*.6} ${y+bh*.78}L${x+bw*.7} ${y+bh*.55}L${x+bw*.8} ${y+bh*.72}L${x+bw*.86} ${y+bh*.62}L${x+bw*.92} ${y+bh*.78}Z" fill="#7cc9b3"/>
 <path class="flap" d="M${m} ${y+6}Q${m+bw*.2} ${y-14} ${x+bw-8} ${y+4}V${y+bh-12}Q${m+bw*.2} ${y+bh-26} ${m} ${y+bh-8}Z" fill="#fff" opacity=".85"/>
 <rect x="${m-3}" y="${y+bh-12}" width="6" height="${Math.min(40,H-y-bh+6)}" fill="#ffc93c"/>`};
 const ro=new ResizeObserver(draw);ro.observe(s);
