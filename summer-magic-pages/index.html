@@ -92,6 +92,11 @@ td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .sdg b{font:800 26px/1 "Baloo 2",sans-serif;margin-right:6px}
 .sdg strong{font-size:16px}
 .sdg p{margin:6px 0 0;font-size:14px;opacity:.95}
+:root{--lil:#b8a2e0}
+.demo{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;background:var(--pg);border-radius:16px;padding:18px 22px;border-left:6px solid var(--lil)}
+.demo h4{margin:0 0 4px;font-size:18px}
+.demo p{margin:0;color:var(--mut);font-size:15px;max-width:46em}
+.demo a.btn{text-decoration:none;display:inline-flex;align-items:center}
 footer{background:var(--cov);color:var(--covink);font-size:14px}
 label{display:flex;flex-direction:column;gap:4px;font-size:14px;font-weight:700;color:var(--mut)}
 input,select{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:2px solid var(--line);border-radius:10px;padding:8px 10px;min-height:44px;width:100%}
@@ -137,6 +142,7 @@ input:focus-visible,select:focus-visible{outline:3px solid var(--sun);outline-of
   <a href="#schedule" style="--c:var(--tl)">60節排課表</a>
   <a href="#team" style="--c:var(--cb)">老師分工</a>
   <a href="#hours" style="--c:var(--co)">節數統計</a>
+  <a href="#ebook" style="--c:var(--lil,#b8a2e0)">電子書格式</a>
   <a href="#sdgs" style="--c:var(--co)">SDGs 主題延伸</a>
   <a href="#materials" style="--c:var(--tl)">材料清單</a>
   <a href="#todo" style="--c:var(--sun)">待辦與提醒</a>
@@ -215,6 +221,53 @@ input:focus-visible,select:focus-visible{outline:3px solid var(--sun);outline-of
     <tbody id="stat"></tbody>
   </table></div>
   <div class="legend"><span><i style="background:var(--acc)"></i>主教</span><span><i style="background:var(--sun)"></i>助教</span></div>
+</section>
+
+<section id="ebook">
+  <h3>電子書格式：照這個結構寫，學生就能完成一本書</h3>
+  <p class="lead">先看示範書，再用下面的格式和腳本表帶學生創作。</p>
+  <div class="demo">
+    <div>
+      <h4>示範電子書：The Magic Pages of Tucheng 土城的魔法書</h4>
+      <p>12 頁示範：有翻頁、每頁英文朗讀、灰色頁面按「Magic!」恢復顏色，另有「腳本」頁可以切換查看。</p>
+    </div>
+    <a class="btn solid" href="https://imacipadtw-lang.github.io/teacherteacher/summer-magic-pages/demo-ebook/">開啟示範電子書</a>
+  </div>
+  <div class="grid2" style="margin-top:22px">
+    <div class="box">
+      <h4>書的結構（約 20 頁）</h4>
+      <ol>
+        <li><b>封面</b>：書名、作者（學生名字）、封面插圖</li>
+        <li><b>開場</b>：介紹主角和地點，出現一個問題</li>
+        <li><b>故事頁</b>：每頁解決一件小事，可以連到 SDGs</li>
+        <li><b>高潮</b>：大家一起合作，問題解決</li>
+        <li><b>結尾</b>：一句感謝或一個問題，讓讀者想一想</li>
+        <li><b>作者頁</b>：每位學生的名字和一句話</li>
+      </ol>
+    </div>
+    <div class="box">
+      <h4>每一頁的規格</h4>
+      <ol>
+        <li>插圖：橫式（寬：高約 16：9），放在頁面上方</li>
+        <li>英文：1～2 句短句，用學過的句型，例如 We ___. / I ___.</li>
+        <li>中文：一句翻譯，字小一點放在英文下面</li>
+        <li>朗讀：每頁一段學生英文朗讀錄音</li>
+        <li>SDGs：故事寫完再標上對應的目標色塊（可多選）</li>
+      </ol>
+    </div>
+  </div>
+  <h4 style="font-size:18px;margin:26px 0 8px">腳本表範例（學生填寫用）</h4>
+  <div class="scroll"><table>
+    <thead><tr><th>頁</th><th>英文</th><th>中文</th><th>畫面說明</th><th>SDGs</th><th>負責學生</th></tr></thead>
+    <tbody>
+      <tr><td>封面</td><td>The Magic Pages of Tucheng</td><td>土城的魔法書</td><td>發光的魔法書和星星</td><td>—</td><td></td></tr>
+      <tr><td>1</td><td>Mia and Leo find an old book in the library.</td><td>Mia 和 Leo 在圖書館找到一本舊書。</td><td>圖書館書架，兩個孩子發現發光的書</td><td>—</td><td></td></tr>
+      <tr><td>3</td><td>The river is gray and dirty. We pick up the trash. The river is blue again!</td><td>河水又灰又髒。我們把垃圾撿起來，河水又變藍了！</td><td>河邊撿垃圾，河水從灰色變回藍色</td><td>6、14</td><td></td></tr>
+      <tr><td>4</td><td>The lights are on, but no one is home. Click! We turn off the lights.</td><td>燈開著，可是沒有人在家。喀！我們把燈關掉。</td><td>房子的窗戶亮著燈，孩子按下開關</td><td>7</td><td></td></tr>
+      <tr><td>…</td><td colspan="5">完整 12 頁腳本請看示範電子書的「腳本」頁</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">小技巧：插圖先畫灰色版本、再畫彩色版本，就能做出「找回顏色」的魔法效果。</p>
 </section>
 
 <section id="sdgs">
@@ -392,7 +445,7 @@ renderM();
  db.collection('materials').orderBy('at').onSnapshot(s=>{if(!s.metadata.fromCache){loaded=true;clearTimeout(timer);$('m-status').textContent='四位老師填的內容都會即時同步。'}items=s.docs.map(d=>({id:d.id,...d.data()}));renderM()},()=>{clearTimeout(timer);$('m-status').textContent='共用清單連線中斷，請重新開啟網頁。'});
 })();
 
-const ids=['overview','name','schedule','team','hours','sdgs','materials','todo'];
+const ids=['overview','name','schedule','team','hours','ebook','sdgs','materials','todo'];
 const show=()=>{const h=location.hash.slice(1);const id=ids.includes(h)?h:'overview';ids.forEach(x=>document.getElementById(x).classList.toggle('on',x===id));document.querySelectorAll('#tabs a').forEach(a=>a.getAttribute('href')==='#'+id?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'))};
 window.addEventListener('hashchange',show);show();
 
